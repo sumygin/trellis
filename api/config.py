@@ -1,12 +1,17 @@
 import os
+from http.server import BaseHTTPRequestHandler
+import json
 
 
-def handler(request):
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json", "Cache-Control": "no-store"},
-        "body": (
-            '{"supabaseUrl":"%s","supabaseAnonKey":"%s"}'
-            % (os.environ.get("SUPABASE_URL", ""), os.environ.get("SUPABASE_ANON_KEY", ""))
-        ),
-    }
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        body = json.dumps({
+            "supabaseUrl": os.environ.get("SUPABASE_URL", ""),
+            "supabaseAnonKey": os.environ.get("SUPABASE_ANON_KEY", ""),
+        }).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
