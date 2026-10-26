@@ -1,0 +1,597 @@
+{
+  "activeBoardId": "board-main",
+  "boards": [
+    {
+      "id": "board-main",
+      "name": "Personal Board",
+      "background": "/uploads/wallhaven-vgk9q3.jpg",
+      "lists": [
+        {
+          "id": "list-due-today",
+          "name": "DUE TODAY",
+          "cards": [
+            {
+              "id": "card-pers-1",
+              "title": "Apply lovable hackathon",
+              "description": "",
+              "due": "2026-10-19T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-2",
+              "title": "wash hair",
+              "description": "",
+              "due": "2026-10-26T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-hob-1",
+              "title": "wash head",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-dt-1",
+              "title": "GO GYM",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-dt-3",
+              "title": "Rrccord YT video for mom",
+              "description": "",
+              "due": "2026-10-23T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-dt-4",
+              "title": "Apply jane street",
+              "description": "",
+              "due": "2026-10-23T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "list-cs",
+          "name": "CS",
+          "cards": [
+            {
+              "id": "card-cs-4",
+              "title": "MMT 2",
+              "description": "",
+              "due": "2026-11-03T19:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-5",
+              "title": "watch 13 lectures",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                {
+                  "text": "Lecture 1",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 2",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 3",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 4",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 5",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 6",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 7",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 8",
+                  "done": true
+                },
+                {
+                  "text": "Lecture 9",
+                  "done": false
+                },
+                {
+                  "text": "Lecture 10",
+                  "done": false
+                },
+                {
+                  "text": "Lecture 11",
+                  "done": false
+                },
+                {
+                  "text": "Lecture 12",
+                  "done": false
+                },
+                {
+                  "text": "Lecture 13",
+                  "done": false
+                }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-6",
+              "title": "review PMTs",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-7",
+              "title": "review PPTs",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-8",
+              "title": "catchup intro to comp sys",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-9",
+              "title": "catchup haskell",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-10",
+              "title": "catchup prog comp training",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-11",
+              "title": "catchup calculus",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-12",
+              "title": "catchup comp sys friday",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "list-hobbies",
+          "name": "Hobbies/soc",
+          "cards": [
+            {
+              "id": "card-hob-2",
+              "title": "get stuff for horizons",
+              "description": "Items needed for Horizons",
+              "due": "2026-10-27T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-hob-3",
+              "title": "Place all society events on calendar",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-hob-4",
+              "title": "Book some societies",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-hob-5",
+              "title": "APPLY music soc / tryouts",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-hob-6",
+              "title": "Join society GCS",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-hob-7",
+              "title": "pool soc",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "list-personal",
+          "name": "Personal",
+          "cards": [
+            {
+              "id": "card-pers-3",
+              "title": "Launch roblox game",
+              "description": "",
+              "due": "2026-11-01T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-4",
+              "title": "SCIMUS - improvements",
+              "description": "",
+              "due": "2026-11-01T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-5",
+              "title": "start a podcast with oliver - 2 based egirls",
+              "description": "",
+              "due": "2026-11-01T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-6",
+              "title": "Start yt channel /tiktok / insta to sell flashcards",
+              "description": "",
+              "due": "2026-11-02T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-7",
+              "title": "finish ai course",
+              "description": "",
+              "due": "2026-12-01T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-8",
+              "title": "Make app where it reads your whatsapp messages and summarises events + things happening in a website",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-9",
+              "title": "Start chicken slap promo next week",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-10",
+              "title": "migrate chicken slap to trello next week",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-pers-11",
+              "title": "make your own trello with unlimited automations",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "list-shopping",
+          "name": "Shopping",
+          "cards": [
+            {
+              "id": "card-shop-2",
+              "title": "Coco milk",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "list-admin",
+          "name": "Admin",
+          "cards": [
+            {
+              "id": "card-adm-1",
+              "title": "cultural evening performance?",
+              "description": "",
+              "due": "2026-11-22T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-adm-2",
+              "title": "Transfer old school stuff",
+              "description": "",
+              "due": "2026-12-01T00:00",
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "list-done",
+          "name": "Done",
+          "cards": [
+            {
+              "id": "card-cs-2",
+              "title": "l-systems extra",
+              "description": "",
+              "due": "2026-10-26T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-1",
+              "title": "catchup db lec",
+              "description": "",
+              "due": "2026-10-26T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-shop-1",
+              "title": "BLU-TAC FOR DOOR POSTER",
+              "description": "",
+              "due": "2026-10-27T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-cs-3",
+              "title": "PMT 3",
+              "description": "",
+              "due": "2026-10-26T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-dt-5",
+              "title": "fix ceramic tile wednesday",
+              "description": "",
+              "due": "2026-10-22T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-dt-2",
+              "title": "pins",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-1",
+              "title": "U-s",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-2",
+              "title": "Start work on calendar / TimeBook (you can see others calendars)",
+              "description": "",
+              "due": "2026-10-26T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-3",
+              "title": "old usb cable",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-4",
+              "title": "reschedule w thalia",
+              "description": "",
+              "due": "2026-10-26T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-5",
+              "title": "Command strips",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-6",
+              "title": "CHECK CANVAS",
+              "description": "",
+              "due": "2026-10-25T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-7",
+              "title": "figure out chicken model gen",
+              "description": "",
+              "due": "2026-10-24T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-8",
+              "title": "TRY JUDO/BJJ",
+              "description": "",
+              "due": "2026-10-24T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-9",
+              "title": "fix BJA glitch?",
+              "description": "",
+              "due": "2026-10-24T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "card-done-10",
+              "title": "OILER CARD",
+              "description": "",
+              "due": "2026-10-24T00:00",
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
