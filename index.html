@@ -474,6 +474,8 @@
       <div class="modal-header"><strong>Account</strong><button onclick="closeAuthModal()">✕</button></div>
       <div class="modal-section"><label>Email</label><input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
       <div class="modal-section"><label>Password</label><input id="auth-password" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
+      <button onclick="signInWithGoogle()">Continue with Google</button>
+      <div class="status-text" style="text-align:center;">or use email and password</div>
       <div class="row"><button onclick="signIn()">Sign in</button><button onclick="signUp()">Create account</button></div>
       <span class="status-text" id="auth-status">Use an account to sync boards across devices.</span>
       <div id="account-invites"></div>
@@ -889,6 +891,14 @@
     function closeAuthModal() { document.getElementById("auth-modal").classList.remove("open"); }
     async function signIn() { await authenticate("signInWithPassword"); }
     async function signUp() { await authenticate("signUp"); }
+    async function signInWithGoogle() {
+      if (!supabaseClient) return alert("Add Supabase environment variables to enable accounts.");
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin }
+      });
+      if (error) document.getElementById("auth-status").textContent = error.message;
+    }
     async function authenticate(method) {
       if (!supabaseClient) return alert("Add Supabase environment variables to enable accounts.");
       const email = document.getElementById("auth-email").value.trim();
