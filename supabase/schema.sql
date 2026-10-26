@@ -1,0 +1,81 @@
+create table if not exists public.boards (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  background text not null default '',
+  data jsonb not null default '{"lists":[]}'::jsonb,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.board_members (
+  board_id uuid not null references public.boards(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  role text not null check (role in ('owner', 'editor', 'commenter', 'viewer')),
+  created_at timestamptz not null default now(),
+  primary key (board_id, user_id)
+);
+
+create table if not exists public.board_invitations (
+  id uuid primary key default gen_random_uuid(),
+  board_id uuid not null references public.boards(id) on delete cascade,
+  email text not null,
+  role text not null check (role in ('editor', 'commenter', 'viewer')),
+  invited_by uuid not null references auth.users(id) on delete cascade,
+  accepted_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table public.boards enable row level security;
+alter table public.board_members enable row level security;
+alter table public.board_invitations enable row level security;
+
+create or replace function public.is_board_member(target_board_id uuid, target_user_id uuid default auth.uid())
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (select 1 from public.board_members where board_id = target_board_id and user_id = target_user_id);
+$$;
+create or replace function public.is_board_owner(target_board_id uuid, target_user_id uuid default auth.uid())
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (select 1 from public.board_members where board_id = target_board_id and user_id = target_user_id and role = 'owner');
+$$;
+
+create policy "members can read boards" on public.boards for select using (
+  public.is_board_member(id) or exists (
+    select 1 from public.board_invitations i
+    where i.board_id = id and lower(i.email) = lower((select email from auth.users where id = auth.uid())) and i.accepted_at is null
+  )
+);
+create policy "owners can create boards" on public.boards for insert with check (owner_id = auth.uid());
+create policy "editors can update boards" on public.boards for update using (
+  exists (select 1 from public.board_members m where m.board_id = id and m.user_id = auth.uid() and m.role in ('owner', 'editor'))
+);
+create policy "members can read memberships" on public.board_members for select using (
+  user_id = auth.uid() or public.is_board_member(board_id)
+);
+create policy "owners can manage memberships" on public.board_members for all using (
+  public.is_board_owner(board_id)
+) with check (
+  public.is_board_owner(board_id)
+);
+create policy "owners can create invitations" on public.board_invitations for insert with check (
+  exists (select 1 from public.board_members m where m.board_id = board_id and m.user_id = auth.uid() and m.role = 'owner')
+);
+create policy "users can read their invitations" on public.board_invitations for select using (
+  lower(email) = lower((select email from auth.users where id = auth.uid()))
+  or invited_by = auth.uid()
+);
+
+create or replace function public.accept_board_invitation(invitation_id uuid)
+returns void language plpgsql security definer set search_path = public as $$
+declare invitation public.board_invitations;
+begin
+  select * into invitation from public.board_invitations
+  where id = invitation_id and lower(email) = lower((select email from auth.users where id = auth.uid()))
+    and accepted_at is null;
+  if invitation.id is null then raise exception 'Invitation not found or already accepted'; end if;
+  insert into public.board_members(board_id, user_id, role)
+    values (invitation.board_id, auth.uid(), invitation.role)
+    on conflict (board_id, user_id) do update set role = excluded.role;
+  update public.board_invitations set accepted_at = now() where id = invitation.id;
+end;
+$$;

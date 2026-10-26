@@ -89,6 +89,18 @@ class TrelloHandler(http.server.SimpleHTTPRequestHandler):
         pass  # Keep console clean and lightweight
 
     def do_GET(self):
+        if self.path == "/api/config":
+            payload = {
+                "supabaseUrl": os.environ.get("SUPABASE_URL", ""),
+                "supabaseAnonKey": os.environ.get("SUPABASE_ANON_KEY", "")
+            }
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(json.dumps(payload).encode("utf-8"))
+            return
+
         if self.path == "/api/data":
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
