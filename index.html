@@ -16,7 +16,8 @@
       --text-muted: #9fadbc;
       --border-subtle: rgba(255, 255, 255, 0.08);
       /* 5-Tier Due Date Pill Colors */
-      --due-red: #8f211b;       /* Due today, overdue, or tomorrow */
+      --due-red: #8f211b;       /* Due today or overdue */
+      --due-tomorrow: #c9372c;  /* Due tomorrow */
       --due-orange: #e56910;    /* Next 3 days */
       --due-yellow: #f5cd47;    /* Next week */
       --due-green: #579dff;     /* Within a month */
@@ -258,6 +259,7 @@
     }
 
     .due-pill.tier-red { background: var(--due-red); color: #fff; }
+    .due-pill.tier-tomorrow { background: var(--due-tomorrow); color: #fff; }
     .due-pill.tier-orange { background: var(--due-orange); color: #fff; }
     .due-pill.tier-yellow { background: var(--due-yellow); color: #171a1c; font-weight: 600; }
     .due-pill.tier-green { background: var(--due-green); color: #0f1214; font-weight: 600; }
@@ -713,8 +715,10 @@
       const diffDays = (startOfDueDay - startOfToday) / (1000 * 60 * 60 * 24);
 
       let tierClass = "tier-lightblue";
-      if (diffDays <= 1) {
-        tierClass = "tier-red";        // Due today, overdue, or tomorrow
+      if (diffDays <= 0) {
+        tierClass = "tier-red";        // Due today or overdue
+      } else if (diffDays === 1) {
+        tierClass = "tier-tomorrow";  // Due tomorrow
       } else if (diffDays <= 3) {
         tierClass = "tier-orange";     // In the next 3 days
       } else if (diffDays <= 7) {
