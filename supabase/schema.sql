@@ -48,6 +48,9 @@ drop policy if exists "owners can create boards" on public.boards;
 drop policy if exists "editors can update boards" on public.boards;
 drop policy if exists "members can read memberships" on public.board_members;
 drop policy if exists "owners can manage memberships" on public.board_members;
+drop policy if exists "members can insert memberships" on public.board_members;
+drop policy if exists "owners can update memberships" on public.board_members;
+drop policy if exists "owners can delete memberships" on public.board_members;
 drop policy if exists "owners can create invitations" on public.board_invitations;
 drop policy if exists "users can read their invitations" on public.board_invitations;
 
