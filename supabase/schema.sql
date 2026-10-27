@@ -46,6 +46,7 @@ $$;
 drop policy if exists "members can read boards" on public.boards;
 drop policy if exists "owners can create boards" on public.boards;
 drop policy if exists "editors can update boards" on public.boards;
+drop policy if exists "owners can delete boards" on public.boards;
 drop policy if exists "members can read memberships" on public.board_members;
 drop policy if exists "owners can manage memberships" on public.board_members;
 drop policy if exists "members can insert memberships" on public.board_members;
@@ -63,6 +64,9 @@ create policy "members can read boards" on public.boards for select using (
 create policy "owners can create boards" on public.boards for insert with check (owner_id = auth.uid());
 create policy "editors can update boards" on public.boards for update using (
   exists (select 1 from public.board_members m where m.board_id = id and m.user_id = auth.uid() and m.role in ('owner', 'editor'))
+);
+create policy "owners can delete boards" on public.boards for delete using (
+  public.is_board_owner(id)
 );
 create policy "members can read memberships" on public.board_members for select using (
   user_id = auth.uid() or public.is_board_member(board_id)
