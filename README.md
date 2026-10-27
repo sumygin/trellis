@@ -13,6 +13,7 @@ Without Supabase environment variables, the app uses `data.json` exactly as befo
 ## Supabase + Vercel
 
 1. Create a Supabase project and run [`supabase/schema.sql`](./supabase/schema.sql) in the SQL editor.
+   If you already ran an older version, run the current file again; it replaces the affected policies and creates the `board-backgrounds` Storage bucket.
 2. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Vercel environment variables.
 3. Import this repository into Vercel. The included [`vercel.json`](./vercel.json) serves the app and its config function.
 4. Add the deployed URL to Supabase Authentication > URL Configuration.

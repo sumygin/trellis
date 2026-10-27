@@ -26,6 +26,10 @@ create table if not exists public.board_invitations (
   created_at timestamptz not null default now()
 );
 
+insert into storage.buckets (id, name, public)
+values ('board-backgrounds', 'board-backgrounds', true)
+on conflict (id) do update set public = true;
+
 alter table public.boards enable row level security;
 alter table public.board_members enable row level security;
 alter table public.board_invitations enable row level security;
@@ -39,10 +43,18 @@ returns boolean language sql security definer stable set search_path = public as
   select exists (select 1 from public.board_members where board_id = target_board_id and user_id = target_user_id and role = 'owner');
 $$;
 
+drop policy if exists "members can read boards" on public.boards;
+drop policy if exists "owners can create boards" on public.boards;
+drop policy if exists "editors can update boards" on public.boards;
+drop policy if exists "members can read memberships" on public.board_members;
+drop policy if exists "owners can manage memberships" on public.board_members;
+drop policy if exists "owners can create invitations" on public.board_invitations;
+drop policy if exists "users can read their invitations" on public.board_invitations;
+
 create policy "members can read boards" on public.boards for select using (
   public.is_board_member(id) or exists (
     select 1 from public.board_invitations i
-    where i.board_id = id and lower(i.email) = lower((select email from auth.users where id = auth.uid())) and i.accepted_at is null
+    where i.board_id = id and lower(i.email) = lower(auth.jwt() ->> 'email') and i.accepted_at is null
   )
 );
 create policy "owners can create boards" on public.boards for insert with check (owner_id = auth.uid());
@@ -52,25 +64,41 @@ create policy "editors can update boards" on public.boards for update using (
 create policy "members can read memberships" on public.board_members for select using (
   user_id = auth.uid() or public.is_board_member(board_id)
 );
-create policy "owners can manage memberships" on public.board_members for all using (
+create policy "members can insert memberships" on public.board_members for insert with check (
+  user_id = auth.uid() and (
+    public.is_board_owner(board_id)
+    or exists (select 1 from public.boards b where b.id = board_id and b.owner_id = auth.uid())
+  )
+);
+create policy "owners can update memberships" on public.board_members for update using (
   public.is_board_owner(board_id)
 ) with check (
+  public.is_board_owner(board_id)
+);
+create policy "owners can delete memberships" on public.board_members for delete using (
   public.is_board_owner(board_id)
 );
 create policy "owners can create invitations" on public.board_invitations for insert with check (
   exists (select 1 from public.board_members m where m.board_id = board_id and m.user_id = auth.uid() and m.role = 'owner')
 );
 create policy "users can read their invitations" on public.board_invitations for select using (
-  lower(email) = lower((select email from auth.users where id = auth.uid()))
+  lower(email) = lower(auth.jwt() ->> 'email')
   or invited_by = auth.uid()
 );
+
+drop policy if exists "authenticated users can upload board backgrounds" on storage.objects;
+drop policy if exists "public can read board backgrounds" on storage.objects;
+create policy "authenticated users can upload board backgrounds" on storage.objects
+  for insert to authenticated with check (bucket_id = 'board-backgrounds' and (storage.foldername(name))[1] = auth.uid()::text);
+create policy "public can read board backgrounds" on storage.objects
+  for select using (bucket_id = 'board-backgrounds');
 
 create or replace function public.accept_board_invitation(invitation_id uuid)
 returns void language plpgsql security definer set search_path = public as $$
 declare invitation public.board_invitations;
 begin
   select * into invitation from public.board_invitations
-  where id = invitation_id and lower(email) = lower((select email from auth.users where id = auth.uid()))
+  where id = invitation_id and lower(email) = lower(auth.jwt() ->> 'email')
     and accepted_at is null;
   if invitation.id is null then raise exception 'Invitation not found or already accepted'; end if;
   insert into public.board_members(board_id, user_id, role)

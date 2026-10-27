@@ -472,11 +472,14 @@
   <div class="modal-backdrop" id="auth-modal" onclick="if(event.target===this) closeAuthModal()">
     <div class="modal auth-modal">
       <div class="modal-header"><strong>Account</strong><button onclick="closeAuthModal()">✕</button></div>
-      <div class="modal-section"><label>Email</label><input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
-      <div class="modal-section"><label>Password</label><input id="auth-password" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
-      <button onclick="signInWithGoogle()">Continue with Google</button>
-      <div class="status-text" style="text-align:center;">or use email and password</div>
-      <div class="row"><button onclick="signIn()">Sign in</button><button onclick="signUp()">Create account</button></div>
+      <div id="auth-login-fields">
+        <div class="modal-section"><label>Email</label><input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="modal-section"><label>Password</label><input id="auth-password" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
+        <button onclick="signInWithGoogle()">Continue with Google</button>
+        <div class="status-text" style="text-align:center;">or use email and password</div>
+        <div class="row"><button onclick="signIn()">Sign in</button><button onclick="signUp()">Create account</button></div>
+      </div>
+      <div class="status-text" id="account-status"></div>
       <span class="status-text" id="auth-status">Use an account to sync boards across devices.</span>
       <div class="status-text"><a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a> · <a href="/terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a></div>
       <div id="account-invites"></div>
@@ -806,13 +809,23 @@
           supabaseClient.auth.onAuthStateChange((_event, nextSession) => {
             authUser = nextSession?.user || null;
             updateAccountUi();
-            if (authUser) loadSupabaseState();
+            if (authUser) {
+              loadSupabaseState().then(renderBoard).catch((error) => alert(`Could not load your boards: ${error.message}`));
+            }
           });
         }
       } catch (error) {
         console.warn("Supabase configuration unavailable; using local mode.", error);
       }
-      if (authUser) await loadSupabaseState();
+      if (authUser) {
+        try {
+          await loadSupabaseState();
+        } catch (error) {
+          console.error(error);
+          alert(`Could not load your boards: ${error.message}`);
+          state = { activeBoardId: "local-board", boards: [{ id: "local-board", name: "Local Board", background: "", lists: [] }] };
+        }
+      }
       else {
         const res = await fetch("/api/data");
         state = await res.json();
@@ -875,16 +888,23 @@
     function updateAccountUi() {
       const chip = document.getElementById("user-chip");
       const button = document.getElementById("auth-button");
+      const loginFields = document.getElementById("auth-login-fields");
+      const accountStatus = document.getElementById("account-status");
       if (authUser) {
-        chip.textContent = authUser.email;
+        chip.textContent = authUser.email || "Signed in";
         button.textContent = "Account";
+        loginFields.style.display = "none";
+        accountStatus.textContent = `Signed in as ${authUser.email || "your account"}.`;
       } else {
         chip.textContent = supabaseClient ? "Not signed in" : "Local mode";
         button.textContent = "Sign in";
+        loginFields.style.display = "block";
+        accountStatus.textContent = "";
       }
     }
 
     function openAuthModal() {
+      updateAccountUi();
       document.getElementById("auth-modal").classList.add("open");
       document.getElementById("sign-out-button").style.display = authUser ? "block" : "none";
       if (authUser) loadAccountInvites();
@@ -914,7 +934,12 @@
     }
     async function loadAccountInvites() {
       const target = document.getElementById("account-invites");
-      const { data } = await supabaseClient.from("board_invitations").select("id, board_id, role, boards(name)").eq("email", authUser.email.toLowerCase()).is("accepted_at", null);
+      if (!authUser?.email) return;
+      const { data, error } = await supabaseClient.from("board_invitations").select("id, board_id, role, boards(name)").eq("email", authUser.email.toLowerCase()).is("accepted_at", null);
+      if (error) {
+        target.innerHTML = `<span class="status-text">${error.message}</span>`;
+        return;
+      }
       target.innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${invite.boards?.name || "Board"}<br><small>${invite.role}</small></span><button onclick="acceptInvite('${invite.id}')">Accept</button></div>`).join("");
     }
     async function acceptInvite(invitationId) {
@@ -930,7 +955,11 @@
       const role = boardMemberships[getActiveBoard().id]?.role;
       if (role !== "owner") return alert("Only the board owner can manage invitations.");
       document.getElementById("invite-modal").classList.add("open");
-      const { data } = await supabaseClient.from("board_invitations").select("id, email, role, created_at").eq("board_id", getActiveBoard().id).is("accepted_at", null);
+      const { data, error } = await supabaseClient.from("board_invitations").select("id, email, role, created_at").eq("board_id", getActiveBoard().id).is("accepted_at", null);
+      if (error) {
+        document.getElementById("invite-status").textContent = error.message;
+        return;
+      }
       document.getElementById("pending-invites").innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${invite.email}<br><small>${invite.role}</small></span></div>`).join("") || '<span class="status-text">No pending invitations.</span>';
     }
     function closeInviteModal() { document.getElementById("invite-modal").classList.remove("open"); }
@@ -1439,6 +1468,27 @@
     async function uploadBackground(input) {
       const file = input.files[0];
       if (!file) return;
+      const board = getActiveBoard();
+      if (supabaseClient && authUser) {
+        const membership = boardMemberships[board.id];
+        if (!membership || !["owner", "editor"].includes(membership.role)) {
+          input.value = "";
+          return alert("You do not have permission to change this board background.");
+        }
+        const extension = (file.name.split(".").pop() || "jpg").replace(/[^a-z0-9]/gi, "").toLowerCase() || "jpg";
+        const path = `${authUser.id}/${board.id}-${Date.now()}.${extension}`;
+        const upload = await supabaseClient.storage.from("board-backgrounds").upload(path, file, { upsert: true, contentType: file.type });
+        if (upload.error) {
+          input.value = "";
+          return alert(`Background upload failed: ${upload.error.message}`);
+        }
+        const publicUrl = supabaseClient.storage.from("board-backgrounds").getPublicUrl(path).data.publicUrl;
+        board.background = publicUrl;
+        await saveState();
+        input.value = "";
+        renderBoard();
+        return;
+      }
       const reader = new FileReader();
       reader.onload = async (e) => {
         const res = await fetch("/api/upload-bg", {
@@ -1448,7 +1498,6 @@
         });
         const data = await res.json();
         if (data.url) {
-          const board = getActiveBoard();
           board.background = data.url;
           await saveState();
           renderBoard();
