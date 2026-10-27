@@ -434,6 +434,50 @@
     .auth-modal { max-width: 420px; }
     .auth-modal input, .auth-modal select { width: 100%; }
     .invite-row { padding: 10px; border: 1px solid var(--border-subtle); border-radius: 7px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
+
+    @media (max-width: 700px) {
+      header {
+        height: auto;
+        min-height: 48px;
+        align-items: stretch;
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .header-left, .header-right {
+        min-width: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .header-left::-webkit-scrollbar, .header-right::-webkit-scrollbar {
+        display: none;
+      }
+
+      .header-left > *, .header-right > * {
+        flex-shrink: 0;
+      }
+
+      .brand {
+        margin-right: 2px;
+      }
+
+      #board-canvas {
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .list {
+        max-height: calc(100vh - 140px);
+      }
+    }
+
+    @media (max-width: 440px) {
+      .brand-byline {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
