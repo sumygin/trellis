@@ -513,6 +513,20 @@
     let activeCardRef = null; // { listId, cardId }
     let draggedCardRef = null; // { sourceListId, cardId }
 
+    function activeBoardStorageKey() {
+      return `trellis-active-board:${authUser?.id || "local"}`;
+    }
+
+    function rememberActiveBoard(boardId) {
+      if (boardId) localStorage.setItem(activeBoardStorageKey(), boardId);
+    }
+
+    function restoreActiveBoard(boards) {
+      const rememberedId = localStorage.getItem(activeBoardStorageKey());
+      const rememberedBoard = boards.find((board) => board.id === rememberedId);
+      return rememberedBoard?.id || boards[0]?.id || null;
+    }
+
     // --- 1. NATURAL LANGUAGE DATE & TIME PARSER ---
     function parseNaturalLanguageDate(rawTitle) {
       let text = rawTitle;
@@ -829,6 +843,8 @@
       else {
         const res = await fetch("/api/data");
         state = await res.json();
+        state.activeBoardId = restoreActiveBoard(state.boards);
+        rememberActiveBoard(state.activeBoardId);
       }
       runDueMomentAutomations();
       renderBoard();
@@ -884,8 +900,9 @@
         state = { activeBoardId: createdBoard.id, boards: [{ id: createdBoard.id, name: createdBoard.name, background: createdBoard.background, lists: source.lists }] };
         boardMemberships[createdBoard.id] = { role: "owner" };
       } else {
-        state = { activeBoardId: boards[0].id, boards };
+        state = { activeBoardId: restoreActiveBoard(boards), boards };
       }
+      rememberActiveBoard(state.activeBoardId);
       if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
       realtimeChannel = supabaseClient.channel("trellis-boards").on("postgres_changes", { event: "UPDATE", schema: "public", table: "boards" }, (payload) => {
         const board = state?.boards.find((item) => item.id === payload.new.id);
@@ -1434,6 +1451,7 @@
         boardMemberships[data.id] = { role: "owner" };
         state.boards.push({ id: data.id, name: data.name, background: "", lists });
         state.activeBoardId = data.id;
+        rememberActiveBoard(data.id);
         renderBoard();
         return;
       }
@@ -1445,13 +1463,14 @@
       };
       state.boards.push(newBoard);
       state.activeBoardId = newBoard.id;
+      rememberActiveBoard(newBoard.id);
       await saveState();
       renderBoard();
     }
 
     async function switchBoard(boardId) {
       state.activeBoardId = boardId;
-      await saveState();
+      rememberActiveBoard(boardId);
       renderBoard();
     }
 
@@ -1470,6 +1489,7 @@
       }
       state.boards = state.boards.filter((b) => b.id !== state.activeBoardId);
       state.activeBoardId = state.boards[0].id;
+      rememberActiveBoard(state.activeBoardId);
       await saveState();
       renderBoard();
     }
