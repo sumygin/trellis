@@ -77,18 +77,8 @@
     .brand-mark {
       width: 34px;
       height: 34px;
-      display: grid;
-      place-items: center;
       border-radius: 9px;
-      background-color: #f1f1f1;
-      background-image:
-        linear-gradient(rgba(80, 80, 80, 0.22) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(80, 80, 80, 0.22) 1px, transparent 1px);
-      background-size: 8px 8px;
-      color: #080808;
-      font: 700 31px/1 Georgia, serif;
-      letter-spacing: -5px;
-      padding-right: 5px;
+      object-fit: cover;
     }
 
     .brand-name {
@@ -451,7 +441,7 @@
   <header>
     <div class="header-left">
       <a class="brand" href="/" aria-label="Trellis home">
-        <span class="brand-mark" aria-hidden="true">S</span>
+        <img class="brand-mark" src="favicon.png" alt="" aria-hidden="true">
         <span class="brand-name">trellis</span>
         <span class="brand-byline">by makxyak</span>
       </a>
