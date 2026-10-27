@@ -113,7 +113,12 @@
       padding: 4px 8px 10px;
       font-weight: 600;
       font-size: 13px;
+      cursor: grab;
     }
+
+    .list-header:active { cursor: grabbing; }
+    .list.list-dragging { opacity: 0.45; }
+    .list.list-drag-over { border-color: var(--due-lightblue); }
 
     .list-title {
       cursor: pointer;
@@ -512,6 +517,7 @@
     let realtimeChannel = null;
     let activeCardRef = null; // { listId, cardId }
     let draggedCardRef = null; // { sourceListId, cardId }
+    let draggedListId = null;
 
     function activeBoardStorageKey() {
       return `trellis-active-board:${authUser?.id || "local"}`;
@@ -1028,6 +1034,8 @@
       board.lists.forEach((list) => {
         const listEl = document.createElement("div");
         listEl.className = "list";
+        listEl.draggable = true;
+        listEl.dataset.listId = list.id;
 
         listEl.innerHTML = `
           <div class="list-header">
@@ -1043,13 +1051,44 @@
 
         const container = listEl.querySelector(".cards-container");
 
+        listEl.addEventListener("dragstart", (event) => {
+          if (draggedCardRef) {
+            event.preventDefault();
+            return;
+          }
+          draggedListId = list.id;
+          listEl.classList.add("list-dragging");
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", list.id);
+        });
+        listEl.addEventListener("dragend", () => {
+          listEl.classList.remove("list-dragging");
+          document.querySelectorAll(".list-drag-over").forEach((element) => element.classList.remove("list-drag-over"));
+          draggedListId = null;
+        });
+        listEl.addEventListener("dragover", (event) => {
+          if (!draggedListId) return;
+          event.preventDefault();
+          event.dataTransfer.dropEffect = "move";
+          listEl.classList.add("list-drag-over");
+        });
+        listEl.addEventListener("dragleave", (event) => {
+          if (!listEl.contains(event.relatedTarget)) listEl.classList.remove("list-drag-over");
+        });
+        listEl.addEventListener("drop", (event) => handleDropOnListColumn(event, list.id));
+
         // Drag and Drop events on container
         container.addEventListener("dragover", (e) => {
+          if (draggedListId) return;
           e.preventDefault();
           container.classList.add("drag-over");
         });
         container.addEventListener("dragleave", () => container.classList.remove("drag-over"));
-        container.addEventListener("drop", (e) => handleDropOnList(e, list.id));
+        container.addEventListener("drop", (e) => {
+          if (draggedListId) return;
+          e.stopPropagation();
+          handleDropOnList(e, list.id);
+        });
 
         list.cards.forEach((card) => {
           const cardEl = document.createElement("div");
@@ -1058,6 +1097,7 @@
           cardEl.dataset.cardId = card.id;
 
           cardEl.addEventListener("dragstart", (e) => {
+            e.stopPropagation();
             draggedCardRef = { sourceListId: list.id, cardId: card.id };
             cardEl.classList.add("dragging");
           });
@@ -1104,6 +1144,26 @@
       addListBtn.textContent = "+ Add another list";
       addListBtn.onclick = createNewList;
       canvas.appendChild(addListBtn);
+    }
+
+    async function handleDropOnListColumn(event, targetListId) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!draggedListId || draggedListId === targetListId) return;
+
+      const board = getActiveBoard();
+      const sourceIndex = board.lists.findIndex((list) => list.id === draggedListId);
+      const targetIndex = board.lists.findIndex((list) => list.id === targetListId);
+      if (sourceIndex === -1 || targetIndex === -1) return;
+
+      const [movedList] = board.lists.splice(sourceIndex, 1);
+      const targetElement = event.currentTarget;
+      const targetBox = targetElement.getBoundingClientRect();
+      const insertIndex = event.clientX < targetBox.left + targetBox.width / 2 ? targetIndex : targetIndex + 1;
+      board.lists.splice(sourceIndex < insertIndex ? insertIndex - 1 : insertIndex, 0, movedList);
+      draggedListId = null;
+      await saveState();
+      renderBoard();
     }
 
     // --- 7. CARD & LIST ACTIONS ---
