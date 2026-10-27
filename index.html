@@ -865,11 +865,19 @@
       boardMemberships = Object.fromEntries((data || []).map((m) => [m.board_id, { role: m.role }]));
       const boards = (data || []).map((m) => ({ id: m.boards.id, name: m.boards.name, background: m.boards.background || "", lists: m.boards.data?.lists || [] }));
       if (!boards.length) {
-        const local = await (await fetch("/api/data")).json();
-        const source = local.boards[0];
+        const source = {
+          name: "Personal Board",
+          background: "",
+          lists: [
+            { id: "list-due-today-" + Date.now(), name: "DUE TODAY", cards: [] },
+            { id: "list-to-do-" + Date.now(), name: "To Do", cards: [] },
+            { id: "list-done-" + Date.now(), name: "Done", cards: [] }
+          ]
+        };
         const created = await supabaseClient.from("boards").insert({ name: source.name, background: source.background || "", data: { lists: source.lists }, owner_id: authUser.id }).select().single();
         if (created.error) throw created.error;
-        await supabaseClient.from("board_members").insert({ board_id: created.data.id, user_id: authUser.id, role: "owner" });
+        const membership = await supabaseClient.from("board_members").insert({ board_id: created.data.id, user_id: authUser.id, role: "owner" });
+        if (membership.error) throw membership.error;
         state = { activeBoardId: created.data.id, boards: [{ id: created.data.id, name: created.data.name, background: created.data.background, lists: source.lists }] };
         boardMemberships[created.data.id] = { role: "owner" };
       } else {
