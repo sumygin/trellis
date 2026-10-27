@@ -1,157 +1,45 @@
 {
-  "activeBoardId": "board-main",
+  "activeBoardId": "board-chicken-slap",
   "boards": [
     {
-      "id": "board-main",
-      "name": "Personal Board",
-      "background": "/uploads/wallhaven-vgk9q3.jpg",
+      "id": "board-chicken-slap",
+      "name": "CHICKEN SLAP",
+      "background": "",
       "lists": [
         {
-          "id": "list-due-today",
+          "id": "cs-list-due-today",
           "name": "DUE TODAY",
-          "cards": [
-            {
-              "id": "card-pers-1",
-              "title": "Apply lovable hackathon",
-              "description": "",
-              "due": "2026-10-19T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-pers-2",
-              "title": "wash hair",
-              "description": "",
-              "due": "2026-10-26T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-hob-1",
-              "title": "wash head",
-              "description": "",
-              "due": "2026-10-25T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-dt-1",
-              "title": "GO GYM",
-              "description": "",
-              "due": "2026-10-25T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-dt-3",
-              "title": "Rrccord YT video for mom",
-              "description": "",
-              "due": "2026-10-23T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-dt-4",
-              "title": "Apply jane street",
-              "description": "",
-              "due": "2026-10-23T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            }
-          ]
+          "cards": []
         },
         {
-          "id": "list-cs",
-          "name": "CS",
+          "id": "cs-list-ui",
+          "name": "Pre-release: UI",
           "cards": [
             {
-              "id": "card-cs-4",
-              "title": "MMT 2",
+              "id": "cs-ui-1",
+              "title": "ABILITY SHOP",
               "description": "",
-              "due": "2026-11-03T19:00",
+              "due": null,
               "completed": false,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-cs-5",
-              "title": "watch 13 lectures",
+              "id": "cs-ui-2",
+              "title": "ITEM SHOP",
               "description": "",
               "due": null,
               "completed": false,
               "checklist": [
-                {
-                  "text": "Lecture 1",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 2",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 3",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 4",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 5",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 6",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 7",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 8",
-                  "done": true
-                },
-                {
-                  "text": "Lecture 9",
-                  "done": false
-                },
-                {
-                  "text": "Lecture 10",
-                  "done": false
-                },
-                {
-                  "text": "Lecture 11",
-                  "done": false
-                },
-                {
-                  "text": "Lecture 12",
-                  "done": false
-                },
-                {
-                  "text": "Lecture 13",
-                  "done": false
-                }
+                { "text": "best valkue + most popular on coins", "done": false }
               ],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-cs-6",
-              "title": "review PMTs",
+              "id": "cs-ui-3",
+              "title": "MISSIONS",
               "description": "",
               "due": null,
               "completed": false,
@@ -160,8 +48,8 @@
               "coverImage": null
             },
             {
-              "id": "card-cs-7",
-              "title": "review PPTs",
+              "id": "cs-ui-4",
+              "title": "Spinny thing in inventory - preview chicken",
               "description": "",
               "due": null,
               "completed": false,
@@ -170,8 +58,8 @@
               "coverImage": null
             },
             {
-              "id": "card-cs-8",
-              "title": "catchup intro to comp sys",
+              "id": "cs-ui-5",
+              "title": "buttons should work",
               "description": "",
               "due": null,
               "completed": false,
@@ -180,8 +68,18 @@
               "coverImage": null
             },
             {
-              "id": "card-cs-9",
-              "title": "catchup haskell",
+              "id": "cs-ui-6",
+              "title": "slap button for mobile",
+              "description": "positioned above the 3 ability buttons",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ui-7",
+              "title": "eliminated message appears higher (doesnt overlap with bottom)",
               "description": "",
               "due": null,
               "completed": false,
@@ -190,28 +88,8 @@
               "coverImage": null
             },
             {
-              "id": "card-cs-10",
-              "title": "catchup prog comp training",
-              "description": "",
-              "due": null,
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-cs-11",
-              "title": "catchup calculus",
-              "description": "",
-              "due": null,
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-cs-12",
-              "title": "catchup comp sys friday",
+              "id": "cs-ui-8",
+              "title": "fix kill message",
               "description": "",
               "due": null,
               "completed": false,
@@ -222,22 +100,12 @@
           ]
         },
         {
-          "id": "list-hobbies",
-          "name": "Hobbies/soc",
+          "id": "cs-list-gameplay",
+          "name": "Pre-release: Gameplay & Fixes",
           "cards": [
             {
-              "id": "card-hob-2",
-              "title": "get stuff for horizons",
-              "description": "Items needed for Horizons",
-              "due": "2026-10-27T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-hob-3",
-              "title": "Place all society events on calendar",
+              "id": "cs-gp-1",
+              "title": "crosshair",
               "description": "",
               "due": null,
               "completed": false,
@@ -246,8 +114,8 @@
               "coverImage": null
             },
             {
-              "id": "card-hob-4",
-              "title": "Book some societies",
+              "id": "cs-gp-2",
+              "title": "revive when you die - 5 robux / revives for robux (10 robux)",
               "description": "",
               "due": null,
               "completed": false,
@@ -256,8 +124,8 @@
               "coverImage": null
             },
             {
-              "id": "card-hob-5",
-              "title": "APPLY music soc / tryouts",
+              "id": "cs-gp-3",
+              "title": "fix chess pieces",
               "description": "",
               "due": null,
               "completed": false,
@@ -266,8 +134,8 @@
               "coverImage": null
             },
             {
-              "id": "card-hob-6",
-              "title": "Join society GCS",
+              "id": "cs-gp-4",
+              "title": "get new missions for today - 50 robux",
               "description": "",
               "due": null,
               "completed": false,
@@ -276,314 +144,627 @@
               "coverImage": null
             },
             {
-              "id": "card-hob-7",
-              "title": "pool soc",
-              "description": "",
+              "id": "cs-gp-5",
+              "title": "MAPS",
+              "description": "spawnpoints - fix donuts and skyscrapers",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "route 67: cars stun upon impact - 1s", "done": true },
+                { "text": "pyramid: ball stuns upon impact - 2s", "done": true },
+                { "text": "spinner: spinner stuns upon impact - 2s", "done": true },
+                { "text": "make spinner not reach edges", "done": false },
+                { "text": "fix inter-map walls", "done": false },
+                { "text": "fix barriers", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-gp-6",
+              "title": "FIX chicken anims while running/walking & add animations",
+              "description": "fix nims running with chicken, fix ninja alignment",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "FIX chicken anims while running.walking", "done": false },
+                { "text": "fix nims running with chicken", "done": false },
+                { "text": "fix ninja alignment", "done": false },
+                { "text": "egg opening/cracking animation", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-gp-7",
+              "title": "Combat & Hitbox Mechanics",
+              "description": "hit someone 3 times in a row = offensive powerup\ndodge 3 times in a row = next hit is reduced wildly in power",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "make hit work properly inside you", "done": false },
+                { "text": "make ai show hitbox whenever a slap happens", "done": false },
+                { "text": "limbo when hit during dodge", "done": false },
+                { "text": "move speed a bit faster", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-gp-8",
+              "title": "make stats system",
+              "description": "saves useful info such as which maps were voted for / total num of votes, average kills per game, average number of each chicken owned etc.",
               "due": null,
               "completed": false,
               "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-gp-9",
+              "title": "Gamemodes & Matchmaking",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "special round/modifier (i.e infection - dont get hit or you will be infected etc)", "done": false },
+                { "text": "red vs blue gamemode", "done": false },
+                { "text": "hexagon fall gamemode", "done": false },
+                { "text": "skill based matchmaking", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-gp-10",
+              "title": "Items, Cosmetics & Progression",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "pets", "done": false },
+                { "text": "contrails", "done": false },
+                { "text": "backbling chicken in the lobby", "done": false },
+                { "text": "xp levels?", "done": false },
+                { "text": "powerups", "done": false },
+                { "text": "item drops: projectile rpg which launch everyone, spawn randomly, last 3 shots", "done": false },
+                { "text": "make it so you can choose up to 3 different abilities - purchased with gems/coins/unlocked", "done": false },
+                { "text": "add gems as well", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-gp-11",
+              "title": "Visuals, Audio & Lobby",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "make the game plasticky - bright colours", "done": false },
+                { "text": "remov white stuff", "done": false },
+                { "text": "different music", "done": false },
+                { "text": "spectate from lobby", "done": false }
+              ],
               "links": [],
               "coverImage": null
             }
           ]
         },
         {
-          "id": "list-personal",
-          "name": "Personal",
+          "id": "cs-list-abilities",
+          "name": "Abilities",
           "cards": [
             {
-              "id": "card-pers-3",
-              "title": "Launch roblox game",
-              "description": "",
-              "due": "2026-11-01T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-pers-4",
-              "title": "SCIMUS - improvements",
-              "description": "",
-              "due": "2026-11-01T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-pers-5",
-              "title": "start a podcast with oliver - 2 based egirls",
-              "description": "",
-              "due": "2026-11-01T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-pers-6",
-              "title": "Start yt channel /tiktok / insta to sell flashcards",
-              "description": "",
-              "due": "2026-11-02T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-pers-7",
-              "title": "finish ai course",
-              "description": "",
-              "due": "2026-12-01T00:00",
-              "completed": false,
-              "checklist": [],
-              "links": [],
-              "coverImage": null
-            },
-            {
-              "id": "card-pers-8",
-              "title": "Make app where it reads your whatsapp messages and summarises events + things happening in a website",
+              "id": "cs-ab-1",
+              "title": "double jump - default",
               "description": "",
               "due": null,
               "completed": false,
-              "checklist": [],
+              "checklist": [
+                { "text": "nerf", "done": false }
+              ],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-pers-9",
-              "title": "Start chicken slap promo next week",
+              "id": "cs-ab-2",
+              "title": "chicken swing - base ability",
               "description": "",
               "due": null,
               "completed": false,
-              "checklist": [],
+              "checklist": [
+                { "text": "add swing animation", "done": true },
+                { "text": "implement cooldown", "done": false },
+                { "text": "slap button for mobile - positioned above the 3 ability buttons", "done": false }
+              ],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-pers-10",
-              "title": "migrate chicken slap to trello next week",
+              "id": "cs-ab-3",
+              "title": "stomp",
               "description": "",
               "due": null,
               "completed": false,
-              "checklist": [],
+              "checklist": [
+                { "text": "implement animation", "done": true },
+                { "text": "sound effect", "done": false },
+                { "text": "make stunned text bigger / replace with smoke cloud / loopy animation around head (stars)", "done": false },
+                { "text": "stun makes you ragdoll, and adds if another player hits u - stunTimeRemaining variable", "done": false },
+                { "text": "increase stomp", "done": false }
+              ],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-pers-11",
-              "title": "make your own trello with unlimited automations",
+              "id": "cs-ab-4",
+              "title": "dash",
               "description": "",
               "due": null,
               "completed": false,
-              "checklist": [],
+              "checklist": [
+                { "text": "dash animation - arms in the running pose for duration of dash, or naruto style", "done": false },
+                { "text": "sound effect (whoosh)", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ab-5",
+              "title": "dodge - avoids any slap attacks",
+              "description": "lean backwards so avoid the swipe",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "animation - guy bends backwards, does a backflip", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ab-6",
+              "title": "default run & default jump",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "default run: make it faster + add smooth animation", "done": false },
+                { "text": "default jump: make higher + satisfying animation", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ab-7",
+              "title": "Combat Abilities",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "smash - heavy attack in radius", "done": false },
+                { "text": "shield", "done": false },
+                { "text": "charge - stuns at the end", "done": false },
+                { "text": "tackle - picks them up and drops them on ground, stuns for ages", "done": false },
+                { "text": "speed boost", "done": false },
+                { "text": "boomerang / throw chicken - cant attack but flies out for 5 seconds, stronger than regular slap", "done": false },
+                { "text": "egg grenade - throws an egg grenade, shockwave", "done": false },
+                { "text": "stun egg grenade - throws a stunning egg grenade", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ab-8",
+              "title": "Higher Hits (More Advanced) & OP Abilities",
+              "description": "op ability: jetpack",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "ult (same for everyone) - charge by getting 10 hits, huge shockwave that launches very far", "done": false },
+                { "text": "banana - place a banana peel on the map, slide, ragdoll, 0 friction for 5 seconds", "done": false },
+                { "text": "egg bomb - lay an egg and it makes a bomb", "done": false },
+                { "text": "confusion - controls are inverted", "done": false },
+                { "text": "grappling hook (?)", "done": false },
+                { "text": "clone - clones your characters and it walks around for a bit (leon brawl stars)", "done": false },
+                { "text": "OP ability: jetpack", "done": false }
+              ],
               "links": [],
               "coverImage": null
             }
           ]
         },
         {
-          "id": "list-shopping",
-          "name": "Shopping",
+          "id": "cs-list-team",
+          "name": "Wessel & Mikhail Tasks",
           "cards": [
             {
-              "id": "card-shop-2",
-              "title": "Coco milk",
+              "id": "cs-tm-1",
+              "title": "Wessel Tasks",
               "description": "",
               "due": null,
               "completed": false,
-              "checklist": [],
+              "checklist": [
+                { "text": "add shop sections (chickens, trails, pets, abilities)", "done": true },
+                { "text": "add crates (eggs - spam click to crack apart and grow until item pops out)", "done": false },
+                { "text": "add path to spawn island", "done": true },
+                { "text": "add more missions to library and add countdown to next reset", "done": true }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-tm-2",
+              "title": "Mikhail Tasks",
+              "description": "",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "add common chickens", "done": false },
+                { "text": "fix road glitches", "done": false },
+                { "text": "fix castle spawnpoints", "done": false }
+              ],
               "links": [],
               "coverImage": null
             }
           ]
         },
         {
-          "id": "list-admin",
-          "name": "Admin",
+          "id": "cs-list-chickens",
+          "name": "Chickens & Rarities",
           "cards": [
             {
-              "id": "card-adm-1",
-              "title": "cultural evening performance?",
-              "description": "",
-              "due": "2026-11-22T00:00",
+              "id": "cs-ch-1",
+              "title": "Special Sound / Meme Chickens",
+              "description": "special chickens make special sounds\nloads of chickens with different abilities & more op chickens",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "poop chicken", "done": false },
+                { "text": "golden poop chicken", "done": false },
+                { "text": "labubu", "done": false },
+                { "text": "chicken nugget", "done": false },
+                { "text": "tung", "done": false },
+                { "text": "verity", "done": false },
+                { "text": "obesity", "done": false },
+                { "text": "gojo satoru chicken", "done": false },
+                { "text": "lovity", "done": false },
+                { "text": "falsity", "done": false },
+                { "text": "chicken drumstick - ryan gosling burp", "done": false },
+                { "text": "cruelty", "done": false },
+                { "text": "michael chicken - hee hee", "done": false },
+                { "text": "HEE HEE SLAP", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ch-2",
+              "title": "COMMON Chickens",
+              "description": "very basic, only colour changes",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "red", "done": false },
+                { "text": "orange", "done": false },
+                { "text": "yellow (starter chicken)", "done": false },
+                { "text": "green", "done": false },
+                { "text": "light blue", "done": false },
+                { "text": "purple", "done": false },
+                { "text": "pink", "done": false },
+                { "text": "brown", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ch-3",
+              "title": "RARE Chickens",
+              "description": "slightly more advanced, minimal or no model changes",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "chicken pox", "done": false },
+                { "text": "zebra chicken", "done": false },
+                { "text": "giraffe chicken", "done": false },
+                { "text": "tiger chicken", "done": false },
+                { "text": "cowboy chicken", "done": false },
+                { "text": "love chicken", "done": false },
+                { "text": "police chicken", "done": false },
+                { "text": "chicken noir", "done": false },
+                { "text": "the chick", "done": false },
+                { "text": "army chicken", "done": false },
+                { "text": "nurse chicken", "done": false },
+                { "text": "taxi chicken", "done": false },
+                { "text": "business chicken", "done": false },
+                { "text": "spiderman chicken", "done": false },
+                { "text": "ninja chicken", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ch-4",
+              "title": "EPIC Chickens",
+              "description": "cooler, with hit effects, slightly more advanced model",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "rainbow", "done": false },
+                { "text": "electricity", "done": false },
+                { "text": "block chicken (minecraft)", "done": false },
+                { "text": "flappy bird chicken", "done": false },
+                { "text": "crossy road chicken", "done": false },
+                { "text": "triple t chicken", "done": false },
+                { "text": "nature chicken", "done": false },
+                { "text": "chicken jockey", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ch-5",
+              "title": "LEGENDARY Chickens",
+              "description": "very cool, hit effects, custom contrail, could be custom model as well",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "fire", "done": false },
+                { "text": "water", "done": false },
+                { "text": "wind", "done": false },
+                { "text": "earth", "done": false },
+                { "text": "spider chicken", "done": false },
+                { "text": "spooky scary chicken", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ch-6",
+              "title": "MYTHIC & HEAVENLY Chickens",
+              "description": "MYTHIC: pretty cool, custom effects, contrail\nHEAVENLY: golden chicken",
+              "due": null,
+              "completed": false,
+              "checklist": [
+                { "text": "MYTHIC: angel chicken", "done": false },
+                { "text": "MYTHIC: devil chicken", "done": false },
+                { "text": "MYTHIC: the egg", "done": false },
+                { "text": "HEAVENLY: golden chicken", "done": false }
+              ],
+              "links": [],
+              "coverImage": null
+            }
+          ]
+        },
+        {
+          "id": "cs-list-economy",
+          "name": "Eggs, Economy & Links",
+          "cards": [
+            {
+              "id": "cs-ec-1",
+              "title": "Egg Chances Table",
+              "description": "Only chickens have rarities:\n• Common (200 Coins): Common 78.889%, Rare 20%, Epic 1%, Legendary 0.1%, Mythic 0.01%, Heavenly 0.001%\n• Rare (650 Coins): Common 20%, Rare 73.89%, Epic 5%, Legendary 1%, Mythic 0.1%, Heavenly 0.01%\n• Epic (1750 Coins): Rare 18.99%, Epic 70%, Legendary 10%, Mythic 1%, Heavenly 0.01%\n• Legendary (3000 Coins): Epic 20%, Legendary 74.9%, Mythic 5%, Heavenly 0.1%\n• Pet (10000 Gems): Pet 100%\n• Trail (5000 Gems): Trails 100%",
+              "due": null,
               "completed": false,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-adm-2",
-              "title": "Transfer old school stuff",
-              "description": "",
-              "due": "2026-12-01T00:00",
+              "id": "cs-ec-2",
+              "title": "Coins Economy Math",
+              "description": "every round: 8 coins, kill: 12c, win: 20c\non average, you get 2 kills and you win 20% of the time so 8 + 24 + 4 = 36 on average coins",
+              "due": null,
               "completed": false,
               "checklist": [],
               "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-ec-3",
+              "title": "Notion Reference Pages",
+              "description": "Attached Notion links from export",
+              "due": null,
+              "completed": false,
+              "checklist": [],
+              "links": [
+                "https://app.notion.com/p/Better-project-1e0f7de2facc81bbb316c79bbc1a3e7d?pvs=21",
+                "https://app.notion.com/p/Work-ideas-2a6f7de2facc804a934bc9d3df7aec9c?pvs=21",
+                "https://app.notion.com/p/Images-to-add-3aaf7de2facc80198095dfdbcab93046?pvs=21"
+              ],
               "coverImage": null
             }
           ]
         },
         {
-          "id": "list-done",
+          "id": "cs-list-done",
           "name": "Done",
           "cards": [
             {
-              "id": "card-cs-2",
-              "title": "l-systems extra",
+              "id": "cs-dn-1",
+              "title": "make chess tiles vibrate, then fall down gradually upon deathmatch",
               "description": "",
-              "due": "2026-10-26T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-cs-1",
-              "title": "catchup db lec",
+              "id": "cs-dn-2",
+              "title": "fix leaderboard properly",
               "description": "",
-              "due": "2026-10-26T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-shop-1",
-              "title": "BLU-TAC FOR DOOR POSTER",
+              "id": "cs-dn-3",
+              "title": "make 4 donuts and make them all shrink from centre",
               "description": "",
-              "due": "2026-10-27T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-cs-3",
-              "title": "PMT 3",
+              "id": "cs-dn-4",
+              "title": "donut deathmatch - vibrate, then fall down until 1 left",
               "description": "",
-              "due": "2026-10-26T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-dt-5",
-              "title": "fix ceramic tile wednesday",
+              "id": "cs-dn-5",
+              "title": "make donut trampoline a bit weaker",
               "description": "",
-              "due": "2026-10-22T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-dt-2",
-              "title": "pins",
+              "id": "cs-dn-6",
+              "title": "fix chessboard spawnpoints",
               "description": "",
-              "due": "2026-10-25T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-1",
-              "title": "U-s",
+              "id": "cs-dn-7",
+              "title": "give chicken eyes",
               "description": "",
-              "due": "2026-10-25T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-2",
-              "title": "Start work on calendar / TimeBook (you can see others calendars)",
+              "id": "cs-dn-8",
+              "title": "trading",
               "description": "",
-              "due": "2026-10-26T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-3",
-              "title": "old usb cable",
+              "id": "cs-dn-9",
+              "title": "inventory",
               "description": "",
-              "due": "2026-10-25T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-4",
-              "title": "reschedule w thalia",
+              "id": "cs-dn-10",
+              "title": "chicken currency",
               "description": "",
-              "due": "2026-10-26T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-5",
-              "title": "Command strips",
+              "id": "cs-dn-11",
+              "title": "designing the chicken weapons",
               "description": "",
-              "due": "2026-10-25T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-6",
-              "title": "CHECK CANVAS",
+              "id": "cs-dn-12",
+              "title": "missions",
               "description": "",
-              "due": "2026-10-25T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-7",
-              "title": "figure out chicken model gen",
+              "id": "cs-dn-13",
+              "title": "spectate when u sit out",
               "description": "",
-              "due": "2026-10-24T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-8",
-              "title": "TRY JUDO/BJJ",
+              "id": "cs-dn-14",
+              "title": "a couple more maps",
               "description": "",
-              "due": "2026-10-24T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-9",
-              "title": "fix BJA glitch?",
+              "id": "cs-dn-15",
+              "title": "fix textrues",
               "description": "",
-              "due": "2026-10-24T00:00",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],
               "coverImage": null
             },
             {
-              "id": "card-done-10",
-              "title": "OILER CARD",
+              "id": "cs-dn-16",
+              "title": "ake q dash and e stomp",
               "description": "",
-              "due": "2026-10-24T00:00",
+              "due": null,
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-dn-17",
+              "title": "2 spinner instead of 4",
+              "description": "",
+              "due": null,
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-dn-18",
+              "title": "clouds!!!",
+              "description": "",
+              "due": null,
+              "completed": true,
+              "checklist": [],
+              "links": [],
+              "coverImage": null
+            },
+            {
+              "id": "cs-dn-19",
+              "title": "obby in main island",
+              "description": "",
+              "due": null,
               "completed": true,
               "checklist": [],
               "links": [],

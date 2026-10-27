@@ -64,6 +64,45 @@
       gap: 10px;
     }
 
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-right: 6px;
+      color: var(--text-main);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background-color: #f1f1f1;
+      background-image:
+        linear-gradient(rgba(80, 80, 80, 0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 80, 80, 0.22) 1px, transparent 1px);
+      background-size: 8px 8px;
+      color: #080808;
+      font: 700 31px/1 Georgia, serif;
+      letter-spacing: -5px;
+      padding-right: 5px;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-byline {
+      color: #777b85;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
     select, button, input[type="text"], input[type="datetime-local"], textarea {
       background: #1d2023;
       color: var(--text-main);
@@ -411,6 +450,11 @@
 
   <header>
     <div class="header-left">
+      <a class="brand" href="/" aria-label="Trellis home">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span class="brand-name">trellis</span>
+        <span class="brand-byline">by makxyak</span>
+      </a>
       <select id="board-select" onchange="switchBoard(this.value)"></select>
       <button onclick="createNewBoard()">+ Board</button>
       <button onclick="deleteCurrentBoard()" title="Delete Board">🗑</button>
