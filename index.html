@@ -874,12 +874,15 @@
             { id: "list-done-" + Date.now(), name: "Done", cards: [] }
           ]
         };
-        const created = await supabaseClient.from("boards").insert({ name: source.name, background: source.background || "", data: { lists: source.lists }, owner_id: authUser.id }).select().single();
+        const created = await supabaseClient.rpc("create_board", {
+          board_name: source.name,
+          board_background: source.background || "",
+          board_data: { lists: source.lists }
+        });
         if (created.error) throw created.error;
-        const membership = await supabaseClient.from("board_members").insert({ board_id: created.data.id, user_id: authUser.id, role: "owner" });
-        if (membership.error) throw membership.error;
-        state = { activeBoardId: created.data.id, boards: [{ id: created.data.id, name: created.data.name, background: created.data.background, lists: source.lists }] };
-        boardMemberships[created.data.id] = { role: "owner" };
+        const createdBoard = created.data;
+        state = { activeBoardId: createdBoard.id, boards: [{ id: createdBoard.id, name: createdBoard.name, background: createdBoard.background, lists: source.lists }] };
+        boardMemberships[createdBoard.id] = { role: "owner" };
       } else {
         state = { activeBoardId: boards[0].id, boards };
       }
@@ -1424,12 +1427,10 @@
         { id: "list-3-" + Date.now(), name: "Done", cards: [] }
       ];
       if (supabaseClient && authUser) {
-        const { data, error } = await supabaseClient.from("boards").insert({
-          name: name.trim(), background: "", data: { lists }, owner_id: authUser.id
-        }).select().single();
+        const { data, error } = await supabaseClient.rpc("create_board", {
+          board_name: name.trim(), board_background: "", board_data: { lists }
+        });
         if (error) return alert(error.message);
-        const membership = await supabaseClient.from("board_members").insert({ board_id: data.id, user_id: authUser.id, role: "owner" });
-        if (membership.error) return alert(membership.error.message);
         boardMemberships[data.id] = { role: "owner" };
         state.boards.push({ id: data.id, name: data.name, background: "", lists });
         state.activeBoardId = data.id;

@@ -93,6 +93,35 @@ create policy "authenticated users can upload board backgrounds" on storage.obje
 create policy "public can read board backgrounds" on storage.objects
   for select using (bucket_id = 'board-backgrounds');
 
+create or replace function public.create_board(
+  board_name text,
+  board_background text default '',
+  board_data jsonb default '{"lists":[]}'::jsonb
+)
+returns public.boards
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  created_board public.boards;
+begin
+  if auth.uid() is null then
+    raise exception 'You must be signed in to create a board';
+  end if;
+
+  insert into public.boards (name, background, data, owner_id)
+  values (board_name, board_background, board_data, auth.uid())
+  returning * into created_board;
+
+  insert into public.board_members (board_id, user_id, role)
+  values (created_board.id, auth.uid(), 'owner');
+
+  return created_board;
+end;
+$$;
+grant execute on function public.create_board(text, text, jsonb) to authenticated;
+
 create or replace function public.accept_board_invitation(invitation_id uuid)
 returns void language plpgsql security definer set search_path = public as $$
 declare invitation public.board_invitations;
