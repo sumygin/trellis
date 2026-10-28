@@ -1249,6 +1249,12 @@
     }
 
     // --- 7. CARD & LIST ACTIONS ---
+    function focusAddCardForm(listId) {
+      const cardsContainer = document.querySelector(`.cards-container[data-list-id="${listId}"]`);
+      const addButton = cardsContainer?.parentElement?.querySelector(".add-card-btn");
+      if (addButton) showAddCardForm(listId, addButton);
+    }
+
     function showAddCardForm(listId, btnEl) {
       const form = document.createElement("div");
       form.className = "add-card-form";
@@ -1295,6 +1301,7 @@
         await saveState();
         renderBoard();
         runDueMomentAutomations();
+        focusAddCardForm(listId);
         enrichCardWithLinkPreview(newCard);
       };
 
