@@ -5,6 +5,7 @@
     { "src": "privacy.html", "use": "@vercel/static" },
     { "src": "terms.html", "use": "@vercel/static" },
     { "src": "favicon.png", "use": "@vercel/static" },
+    { "src": "manifest.json", "use": "@vercel/static" },
     { "src": "api/config.py", "use": "@vercel/python" },
     { "src": "api/board.py", "use": "@vercel/python" },
     { "src": "api/boards.py", "use": "@vercel/python" }
@@ -16,6 +17,7 @@
     { "src": "/privacy/?", "dest": "/privacy.html" },
     { "src": "/terms/?", "dest": "/terms.html" },
     { "src": "/favicon.png", "dest": "/favicon.png" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
