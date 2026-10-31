@@ -58,17 +58,19 @@ Response:
 {"boards":[{"id":"uuid","name":"Personal Board","role":"owner"}]}
 ```
 
-Syntgrid can fetch a user's Trellis board as a compact, AI-ready JSON payload:
+Syntgrid can fetch a user's Trellis board as a compact, AI-ready JSON payload.
+Prefer the board UUID returned by `/api/boards`:
 
 ```text
-GET https://<trellis-host>/api/board?name=<url-encoded-board-name>
+GET https://<trellis-host>/api/board?id=<board-uuid>
 HTTP Authorization header: the user's Supabase access token
 ```
 
-The access token must belong to the same Supabase account that has access to
-the requested board. Trellis validates the token with Supabase Auth and relies
-on the existing board membership policies, so the endpoint does not expose
-boards to other users.
+The `name` query parameter remains supported for compatibility, but board names
+are not required to be unique. The access token must belong to the same
+Supabase account that has access to the requested board. Trellis validates the
+token with Supabase Auth and relies on the existing board membership policies,
+so the endpoint does not expose boards to other users.
 
 The response uses short keys to reduce prompt size:
 

@@ -609,6 +609,13 @@
       );
     }
 
+    function getSyntgridOrigin() {
+      const targetOrigin = new URLSearchParams(location.search).get("syntgridOrigin");
+      return ["http://localhost:3000", "https://syntgrid.vercel.app"].includes(targetOrigin)
+        ? targetOrigin
+        : null;
+    }
+
     function activeBoardStorageKey() {
       return `trellis-active-board:${authUser?.id || "local"}`;
     }
@@ -1044,7 +1051,7 @@
       if (!supabaseClient) return alert("Add Supabase environment variables to enable accounts.");
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: window.location.origin }
+        options: { redirectTo: window.location.href }
       });
       if (error) document.getElementById("auth-status").textContent = error.message;
     }
@@ -1706,6 +1713,10 @@
     // Periodically check every 30s if any card has hit its due moment
     setInterval(runDueMomentAutomations, 30000);
 
+    // Show the account flow immediately when Trellis was opened by Syntgrid.
+    // Supabase configuration loads asynchronously, so do not wait for it before
+    // showing the popup or a useful configuration error.
+    if (getSyntgridOrigin()) openAuthModal();
     loadState();
   </script>
 </body>

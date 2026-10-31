@@ -121,9 +121,10 @@ class handler(BaseHTTPRequestHandler):
             return
 
         query = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        board_id = query.get("id", [""])[0].strip()
         board_name = query.get("name", [""])[0].strip()
-        if not board_name:
-            self._send_json(400, {"error": "The board name is required in the name query parameter."})
+        if not board_id and not board_name:
+            self._send_json(400, {"error": "The board id or name is required."})
             return
 
         user_status, user = _supabase_request(
@@ -133,9 +134,9 @@ class handler(BaseHTTPRequestHandler):
             self._send_json(401, {"error": "The Supabase access token is invalid or expired."})
             return
 
-        params = urllib.parse.urlencode(
-            {"name": f"eq.{board_name}", "select": "name,data", "limit": "1"}
-        )
+        filters = {"select": "name,data", "limit": "1"}
+        filters["id" if board_id else "name"] = f"eq.{board_id or board_name}"
+        params = urllib.parse.urlencode(filters)
         board_status, boards = _supabase_request(
             f"{supabase_url}/rest/v1/boards?{params}", token, anon_key
         )
