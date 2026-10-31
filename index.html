@@ -50,6 +50,10 @@
       user-select: none;
     }
 
+    button, select, input, textarea, .card, .list-header {
+      touch-action: manipulation;
+    }
+
     /* Top Minimalist Bar */
     header {
       height: 48px;
@@ -445,15 +449,18 @@
         height: auto;
         min-height: 48px;
         align-items: stretch;
+        flex-direction: column;
         gap: 8px;
-        padding: 8px 10px;
+        padding: max(8px, env(safe-area-inset-top)) 10px 8px;
       }
 
       .header-left, .header-right {
         min-width: 0;
+        width: 100%;
         flex-wrap: nowrap;
         overflow-x: auto;
         scrollbar-width: none;
+        padding-bottom: 2px;
       }
 
       .header-left::-webkit-scrollbar, .header-right::-webkit-scrollbar {
@@ -469,18 +476,94 @@
       }
 
       #board-canvas {
+        align-items: stretch;
         gap: 10px;
-        padding: 10px;
+        padding: 10px max(10px, env(safe-area-inset-left)) max(10px, env(safe-area-inset-right));
+        scroll-snap-type: x proximity;
+        overscroll-behavior-x: contain;
       }
 
       .list {
-        max-height: calc(100vh - 140px);
+        width: min(340px, calc(100vw - 28px));
+        max-height: calc(100vh - 150px);
+        scroll-snap-align: start;
+        padding: 10px 7px;
+      }
+
+      .list-header {
+        min-height: 36px;
+      }
+
+      .cards-container {
+        padding: 2px 3px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .card {
+        padding: 12px 10px 10px;
+      }
+
+      .complete-toggle {
+        width: 20px;
+        height: 20px;
+      }
+
+      .add-card-btn,
+      .add-list-btn {
+        min-height: 40px;
+      }
+
+      .modal-backdrop {
+        align-items: flex-end;
+        padding: 0;
+      }
+
+      .modal {
+        border-radius: 14px 14px 0 0;
+        max-height: 92vh;
+        padding: 16px;
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+      }
+
+      .modal .row {
+        flex-wrap: wrap;
+      }
+
+      .modal .row > input,
+      .modal .row > textarea,
+      .modal .row > select {
+        min-width: min(100%, 220px);
+        flex: 1 1 180px;
+      }
+
+      .modal button,
+      .modal input,
+      .modal select,
+      .modal textarea {
+        min-height: 40px;
       }
     }
 
     @media (max-width: 440px) {
       .brand-byline {
         display: none;
+      }
+
+      .brand-name {
+        font-size: 18px;
+      }
+
+      .header-left,
+      .header-right {
+        gap: 6px;
+      }
+
+      select, button, input[type="text"], input[type="datetime-local"], textarea {
+        font-size: 14px;
+      }
+
+      .list {
+        width: calc(100vw - 20px);
       }
     }
   </style>
