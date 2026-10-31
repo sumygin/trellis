@@ -1,10 +1,10 @@
 {
-  "name": "trellis",
-  "short_name": "trellis",
+  "name": "Trellis",
+  "short_name": "Trellis",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d0f10",
-  "theme_color": "#0d0f10",
+  "background_color": "#121212",
+  "theme_color": "#121212",
   "icons": [
     {
       "src": "/favicon.png",
