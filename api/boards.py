@@ -6,6 +6,21 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler
 
 
+TRUSTED_ORIGINS = {"http://localhost:3000", "https://syntgrid.vercel.app"}
+
+
+def _cors_headers(request_origin):
+    configured_origin = os.environ.get("SYNTGRID_ORIGIN", "")
+    if configured_origin not in TRUSTED_ORIGINS or request_origin != configured_origin:
+        return {}
+    return {
+        "Access-Control-Allow-Origin": configured_origin,
+        "Access-Control-Allow-Headers": "Authorization, Content-Type",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Vary": "Origin",
+    }
+
+
 def _supabase_request(url, token, anon_key):
     request = urllib.request.Request(
         url,
@@ -14,7 +29,9 @@ def _supabase_request(url, token, anon_key):
     try:
         with urllib.request.urlopen(request, timeout=8) as response:
             return response.status, json.loads(response.read().decode("utf-8"))
-    except (urllib.error.HTTPError, OSError, ValueError):
+    except urllib.error.HTTPError as error:
+        return error.code, None
+    except (OSError, ValueError):
         return 503, None
 
 
@@ -28,9 +45,8 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
-        self.send_header("Access-Control-Allow-Origin", os.environ.get("SYNTGRID_ORIGIN", "*"))
-        self.send_header("Access-Control-Allow-Headers", "Authorization, Content-Type")
-        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        for name, value in _cors_headers(self.headers.get("Origin", "")).items():
+            self.send_header(name, value)
         self.end_headers()
         self.wfile.write(body)
 
@@ -71,4 +87,3 @@ class handler(BaseHTTPRequestHandler):
                 for board in boards
             ]
         })
-
