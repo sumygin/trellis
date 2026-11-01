@@ -960,6 +960,7 @@
           if (!card.completed && card.due) {
             const dueTime = new Date(card.due);
             if (dueTime <= now || dueTime <= endOfToday && dueTime <= now) {
+              card._previousListId = list.id;
               const [moved] = list.cards.splice(i, 1);
               const target = dueTodayList || ensureListByName(board, "DUE TODAY", true);
               target.cards.unshift(moved);
@@ -1553,6 +1554,7 @@
       if (dueISO) {
         ctx.card.due = dueISO;
         document.getElementById("modal-due").value = dueISO;
+        restoreCardFromDueToday(ctx);
         sortListByDueAscending(ctx.list);
       }
       await saveState();
@@ -1565,12 +1567,29 @@
       if (!ctx) return;
       ctx.card.due = val || null;
       document.getElementById("modal-due").value = val || "";
+      restoreCardFromDueToday(ctx);
       if (ctx.card.due) {
         sortListByDueAscending(ctx.list);
       }
       await saveState();
       renderBoard();
       runDueMomentAutomations();
+    }
+
+    function restoreCardFromDueToday(ctx) {
+      if (!ctx?.card || !ctx.list || ctx.list.name.toLowerCase() !== "due today") return;
+      const previousListId = ctx.card._previousListId;
+      const previousList = ctx.board.lists.find((list) => list.id === previousListId);
+      if (!previousList || previousList === ctx.list) return;
+
+      const cardIndex = ctx.list.cards.findIndex((card) => card.id === ctx.card.id);
+      if (cardIndex === -1) return;
+
+      const [card] = ctx.list.cards.splice(cardIndex, 1);
+      delete card._previousListId;
+      previousList.cards.push(card);
+      activeCardRef.listId = previousList.id;
+      ctx.list = previousList;
     }
 
     async function saveModalDesc() {
