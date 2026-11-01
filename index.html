@@ -1474,6 +1474,7 @@
       }
 
       targetList.cards.splice(insertIndex, 0, movedCard);
+      sortListByDueAscending(targetList);
       await saveState();
       renderBoard();
     }
