@@ -886,16 +886,20 @@
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const hasNonMidnightTime = dueDate.getHours() !== 0 || dueDate.getMinutes() !== 0;
       const pad = (n) => String(n).padStart(2, "0");
-      const label = `${dueDate.getDate()} ${months[dueDate.getMonth()]}${hasNonMidnightTime ? ` ${pad(dueDate.getHours())}:${pad(dueDate.getMinutes())}` : ""}`;
-
-      if (card.completed) {
-        return { className: "due-pill completed", text: `✓ ${label}` };
-      }
 
       // Compare calendar day difference from start of today
       const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const startOfDueDay = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
       const diffDays = (startOfDueDay - startOfToday) / (1000 * 60 * 60 * 24);
+      const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dateLabel = diffDays > 0 && diffDays <= 7
+        ? weekdays[dueDate.getDay()]
+        : `${dueDate.getDate()} ${months[dueDate.getMonth()]}`;
+      const label = `${dateLabel}${hasNonMidnightTime ? ` ${pad(dueDate.getHours())}:${pad(dueDate.getMinutes())}` : ""}`;
+
+      if (card.completed) {
+        return { className: "due-pill completed", text: `✓ ${label}` };
+      }
 
       let tierClass = "tier-lightblue";
       if (diffDays <= 0) {
