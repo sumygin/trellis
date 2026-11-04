@@ -14,12 +14,12 @@
   <style>
     :root {
       --bg-default: #0d0f10;
-      --list-bg: rgba(18, 20, 18, 0.92);
-      --card-bg: #222528;
-      --card-hover: #2b2f33;
+      --list-bg: rgba(18, 20, 18, 0.72);
+      --card-bg: rgba(34, 37, 40, 0.78);
+      --card-hover: rgba(49, 54, 59, 0.88);
       --text-main: #e6e8ea;
       --text-muted: #9fadbc;
-      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(255, 255, 255, 0.05);
       /* 5-Tier Due Date Pill Colors */
       --due-red: #8f211b;       /* Due today or overdue */
       --due-tomorrow: #c9372c;  /* Due tomorrow */
@@ -59,7 +59,7 @@
       height: 48px;
       background: rgba(10, 12, 14, 0.78);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -103,9 +103,9 @@
     }
 
     select, button, input[type="text"], input[type="datetime-local"], textarea {
-      background: #1d2023;
+      background: rgba(255, 255, 255, 0.055);
       color: var(--text-main);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid rgba(255, 255, 255, 0.045);
       border-radius: 6px;
       padding: 6px 10px;
       font-size: 13px;
@@ -114,11 +114,20 @@
 
     button {
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
     }
 
     button:hover {
-      background: #2c3136;
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    :focus-visible {
+      outline: 2px solid rgba(125, 183, 255, 0.85);
+      outline-offset: 2px;
     }
 
     /* Horizontal Board Canvas */
@@ -137,7 +146,7 @@
       width: 272px;
       max-height: calc(100vh - 80px);
       background: var(--list-bg);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid rgba(255, 255, 255, 0.035);
       border-radius: 10px;
       display: flex;
       flex-direction: column;
@@ -217,7 +226,7 @@
 
     .card:hover {
       background: var(--card-hover);
-      border-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.06);
     }
 
     .card.dragging {
@@ -345,12 +354,25 @@
     .add-list-btn {
       width: 272px;
       flex-shrink: 0;
-      background: rgba(18, 20, 18, 0.72);
-      border: 1px dashed var(--border-subtle);
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px dashed rgba(255, 255, 255, 0.1);
       color: var(--text-muted);
       padding: 12px;
       border-radius: 10px;
       text-align: left;
+    }
+
+    .upload-bg-label {
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.045);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .upload-bg-label:hover {
+      background: rgba(255, 255, 255, 0.11);
     }
 
     /* Modal Backdrop */
@@ -370,8 +392,8 @@
     }
 
     .modal {
-      background: #1a1d20;
-      border: 1px solid var(--border-subtle);
+      background: rgba(26, 29, 32, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 10px;
       width: 100%;
       max-width: 580px;
@@ -442,7 +464,7 @@
     .user-chip { color: var(--text-muted); font-size: 12px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
     .auth-modal { max-width: 420px; }
     .auth-modal input, .auth-modal select { width: 100%; }
-    .invite-row { padding: 10px; border: 1px solid var(--border-subtle); border-radius: 7px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
+    .invite-row { padding: 10px; background: rgba(255,255,255,0.035); border-radius: 7px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
 
     @media (max-width: 700px) {
       header {
@@ -585,7 +607,7 @@
     <div class="header-right">
       <span class="user-chip" id="user-chip">Local mode</span>
       <button id="auth-button" onclick="openAuthModal()">Sign in</button>
-      <label for="bg-upload" style="cursor:pointer; background:#1d2023; border:1px solid var(--border-subtle); padding:6px 10px; border-radius:6px; font-size:13px;">
+      <label for="bg-upload" class="upload-bg-label">
         Upload BG Image
       </label>
       <input type="file" id="bg-upload" accept="image/*" style="display:none" onchange="uploadBackground(this)" />
