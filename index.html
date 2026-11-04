@@ -43,7 +43,8 @@
       background-position: center;
       background-attachment: fixed;
       color: var(--text-main);
-      height: 100vh;
+      height: 100dvh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -119,6 +120,20 @@
 
     button:hover {
       background: rgba(255, 255, 255, 0.11);
+    }
+
+    header button,
+    header .upload-bg-label {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    header button:hover,
+    header .upload-bg-label:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
     }
 
     button:active {
@@ -473,7 +488,7 @@
         align-items: stretch;
         flex-direction: column;
         gap: 8px;
-        padding: max(8px, env(safe-area-inset-top)) 10px 8px;
+        padding: max(8px, env(safe-area-inset-top)) 8px 8px;
       }
 
       .header-left, .header-right {
@@ -481,6 +496,8 @@
         width: 100%;
         flex-wrap: nowrap;
         overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         padding-bottom: 2px;
       }
@@ -491,6 +508,20 @@
 
       .header-left > *, .header-right > * {
         flex-shrink: 0;
+      }
+
+      .header-left {
+        padding-right: 8px;
+      }
+
+      .header-right {
+        padding-right: 8px;
+      }
+
+      header button,
+      header .upload-bg-label,
+      header select {
+        min-height: 38px;
       }
 
       .brand {
