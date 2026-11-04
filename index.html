@@ -898,6 +898,8 @@
       const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const dateLabel = diffDays === 0
         ? "Today"
+        : diffDays === 1
+        ? "Tomorrow"
         : diffDays > 0 && diffDays <= 7
         ? weekdays[dueDate.getDay()]
         : `${dueDate.getDate()} ${months[dueDate.getMonth()]}`;
