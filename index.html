@@ -692,7 +692,11 @@
       const targetOrigin = new URLSearchParams(location.search).get("syntgridOrigin");
       if (!["http://localhost:3000", "https://syntgrid.vercel.app"].includes(targetOrigin)) return;
       window.opener.postMessage(
-        { type: "TRELLIS_SUPABASE_SESSION", accessToken: session.access_token },
+        {
+          type: "TRELLIS_SUPABASE_SESSION",
+          accessToken: session.access_token,
+          refreshToken: session.refresh_token
+        },
         targetOrigin
       );
     }

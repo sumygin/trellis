@@ -9,11 +9,13 @@
     { "src": "api/config.py", "use": "@vercel/python" },
     { "src": "api/board.py", "use": "@vercel/python" },
     { "src": "api/boards.py", "use": "@vercel/python" }
+    ,{ "src": "api/session.py", "use": "@vercel/python" }
   ],
   "routes": [
     { "src": "/api/config", "dest": "/api/config.py" },
     { "src": "/api/board", "dest": "/api/board.py" },
     { "src": "/api/boards", "dest": "/api/boards.py" },
+    { "src": "/api/session", "dest": "/api/session.py" },
     { "src": "/privacy/?", "dest": "/privacy.html" },
     { "src": "/terms/?", "dest": "/terms.html" },
     { "src": "/favicon.png", "dest": "/favicon.png" },
