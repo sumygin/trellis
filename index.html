@@ -769,7 +769,7 @@
       const patterns = [
         // 1. "today" / "tomorrow"
         {
-          regex: /\b(today|tomorrow)\b/i,
+          regex: /\b(today|tomorrow|tmr)\b/i,
           handler: (m) => {
             const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             if (m[1].toLowerCase() === "tomorrow") d.setDate(d.getDate() + 1);
