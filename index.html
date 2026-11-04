@@ -1173,10 +1173,10 @@
       if (!authUser?.email) return;
       const { data, error } = await supabaseClient.from("board_invitations").select("id, board_id, role, boards(name)").eq("email", authUser.email.toLowerCase()).is("accepted_at", null);
       if (error) {
-        target.innerHTML = `<span class="status-text">${error.message}</span>`;
+        target.innerHTML = `<span class="status-text">${escapeHtml(error.message)}</span>`;
         return;
       }
-      target.innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${invite.boards?.name || "Board"}<br><small>${invite.role}</small></span><button onclick="acceptInvite('${invite.id}')">Accept</button></div>`).join("");
+      target.innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${escapeHtml(invite.boards?.name || "Board")}<br><small>${escapeHtml(invite.role)}</small></span><button onclick="acceptInvite('${escapeHtml(invite.id)}')">Accept</button></div>`).join("");
     }
     async function acceptInvite(invitationId) {
       const { error } = await supabaseClient.rpc("accept_board_invitation", { invitation_id: invitationId });
@@ -1196,7 +1196,7 @@
         document.getElementById("invite-status").textContent = error.message;
         return;
       }
-      document.getElementById("pending-invites").innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${invite.email}<br><small>${invite.role}</small></span></div>`).join("") || '<span class="status-text">No pending invitations.</span>';
+      document.getElementById("pending-invites").innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${escapeHtml(invite.email)}<br><small>${escapeHtml(invite.role)}</small></span></div>`).join("") || '<span class="status-text">No pending invitations.</span>';
     }
     function closeInviteModal() { document.getElementById("invite-modal").classList.remove("open"); }
     async function sendInvite() {
@@ -1210,11 +1210,26 @@
     }
 
     // --- 6. RENDERING ---
-    function linkifyText(str) {
-      const escaped = str
+    function escapeHtml(value) {
+      return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function safeExternalUrl(value) {
+      try {
+        const url = new URL(String(value));
+        return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+      } catch {
+        return "";
+      }
+    }
+
+    function linkifyText(str) {
+      const escaped = escapeHtml(str);
       return escaped.replace(
         /(https?:\/\/[^\s]+)/g,
         '<a href="$1" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">$1</a>'
@@ -1225,7 +1240,7 @@
       const board = getActiveBoard();
       const select = document.getElementById("board-select");
       select.innerHTML = state.boards
-        .map((b) => `<option value="${b.id}" ${b.id === board.id ? "selected" : ""}>${b.name}</option>`)
+        .map((b) => `<option value="${escapeHtml(b.id)}" ${b.id === board.id ? "selected" : ""}>${escapeHtml(b.name)}</option>`)
         .join("");
 
       document.body.style.backgroundImage = board.background ? `url('${board.background}')` : "none";
@@ -1241,7 +1256,7 @@
 
         listEl.innerHTML = `
           <div class="list-header">
-            <span class="list-title" onclick="renameList('${list.id}')">${list.name}</span>
+            <span class="list-title" onclick="renameList('${escapeHtml(list.id)}')">${escapeHtml(list.name)}</span>
             <div class="list-meta">
               <span>${list.cards.length}</span>
               <button class="icon-btn" title="Delete List" onclick="deleteList('${list.id}')">⋯</button>
@@ -1316,7 +1331,7 @@
           const linksCount = (card.links || []).length;
 
           cardEl.innerHTML = `
-            ${card.coverImage ? `<img class="card-cover" src="${card.coverImage}" alt="Link preview" onerror="this.style.display='none'" />` : ""}
+            ${card.coverImage ? `<img class="card-cover" src="${escapeHtml(card.coverImage)}" alt="Link preview" onerror="this.style.display='none'" />` : ""}
             <div class="card-header-row">
               <div class="complete-toggle ${card.completed ? "completed" : ""}" onclick="toggleCardComplete(event, '${list.id}', '${card.id}')">
                 ${card.completed ? "✓" : ""}
@@ -1523,7 +1538,7 @@
       const descUrls = extractUrls(card.description);
       const descLinksEl = document.getElementById("modal-desc-links");
       descLinksEl.innerHTML = descUrls.length
-        ? "Links in description: " + descUrls.map((u) => `<a href="${u}" target="_blank" style="color:#579dff">${u}</a>`).join(" , ")
+        ? "Links in description: " + descUrls.map((u) => `<a href="${escapeHtml(safeExternalUrl(u))}" target="_blank" rel="noopener noreferrer" style="color:#579dff">${escapeHtml(u)}</a>`).join(" , ")
         : "";
 
       // Attached links list
@@ -1532,7 +1547,7 @@
         .map(
           (u, idx) => `
           <div class="row" style="justify-content:space-between; background:#222528; padding:6px 10px; border-radius:6px;">
-            <a href="${u}" target="_blank" style="color:#579dff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:420px;">${u}</a>
+            <a href="${escapeHtml(safeExternalUrl(u))}" target="_blank" rel="noopener noreferrer" style="color:#579dff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:420px;">${escapeHtml(u)}</a>
             <button onclick="removeCardLink(${idx})">✕</button>
           </div>`
         )
