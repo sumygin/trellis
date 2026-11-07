@@ -24,9 +24,6 @@
       --control-bg: rgba(255, 255, 255, 0.055);
       --control-bg-hover: rgba(255, 255, 255, 0.11);
       --control-border: rgba(255, 255, 255, 0.12);
-      --scrollbar-track: rgba(13, 15, 16, 0.46);
-      --scrollbar-thumb: rgba(159, 173, 188, 0.42);
-      --scrollbar-thumb-hover: rgba(159, 173, 188, 0.64);
       /* 5-Tier Due Date Pill Colors */
       --due-red: #8f211b;       /* Due today or overdue */
       --due-tomorrow: #c9372c;  /* Due tomorrow */
@@ -45,31 +42,11 @@
     }
 
     * {
-      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-      scrollbar-width: thin;
+      scrollbar-width: none;
     }
 
     *::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-
-    *::-webkit-scrollbar-track {
-      background: var(--scrollbar-track);
-    }
-
-    *::-webkit-scrollbar-thumb {
-      background: var(--scrollbar-thumb);
-      border: 2px solid var(--scrollbar-track);
-      border-radius: 999px;
-    }
-
-    *::-webkit-scrollbar-thumb:hover {
-      background: var(--scrollbar-thumb-hover);
-    }
-
-    *::-webkit-scrollbar-corner {
-      background: var(--scrollbar-track);
+      display: none;
     }
 
     body {
