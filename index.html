@@ -13,6 +13,7 @@
   <title>Trellis</title>
   <style>
     :root {
+      color-scheme: dark;
       --bg-default: #0d0f10;
       --list-bg: rgba(18, 20, 18, 0.72);
       --card-bg: rgba(34, 37, 40, 0.78);
@@ -20,6 +21,12 @@
       --text-main: #e6e8ea;
       --text-muted: #9fadbc;
       --border-subtle: rgba(255, 255, 255, 0.05);
+      --control-bg: rgba(255, 255, 255, 0.055);
+      --control-bg-hover: rgba(255, 255, 255, 0.11);
+      --control-border: rgba(255, 255, 255, 0.12);
+      --scrollbar-track: rgba(13, 15, 16, 0.46);
+      --scrollbar-thumb: rgba(159, 173, 188, 0.42);
+      --scrollbar-thumb-hover: rgba(159, 173, 188, 0.64);
       /* 5-Tier Due Date Pill Colors */
       --due-red: #8f211b;       /* Due today or overdue */
       --due-tomorrow: #c9372c;  /* Due tomorrow */
@@ -35,6 +42,34 @@
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+      scrollbar-width: thin;
+    }
+
+    *::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border: 2px solid var(--scrollbar-track);
+      border-radius: 999px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: var(--scrollbar-track);
     }
 
     body {
@@ -103,14 +138,53 @@
       font-weight: 500;
     }
 
-    select, button, input[type="text"], input[type="datetime-local"], textarea {
-      background: rgba(255, 255, 255, 0.055);
+    button, select, input, textarea {
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: var(--control-bg);
       color: var(--text-main);
-      border: 1px solid rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--control-border);
       border-radius: 6px;
       padding: 6px 10px;
       font-size: 13px;
       outline: none;
+    }
+
+    select {
+      padding-right: 30px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%239fadbc' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E");
+      background-position: right 10px center;
+      background-repeat: no-repeat;
+      background-size: 12px 8px;
+    }
+
+    option {
+      background: #1a1d20;
+      color: var(--text-main);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.8;
+    }
+
+    input[type="checkbox"] {
+      appearance: auto;
+      -webkit-appearance: auto;
+      accent-color: var(--due-lightblue);
+    }
+
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.78);
+      opacity: 0.85;
+    }
+
+    button:hover,
+    select:hover,
+    input:hover,
+    textarea:hover {
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     button {
@@ -119,7 +193,15 @@
     }
 
     button:hover {
-      background: rgba(255, 255, 255, 0.11);
+      background-color: var(--control-bg-hover);
+    }
+
+    button:disabled,
+    select:disabled,
+    input:disabled,
+    textarea:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
     }
 
     header button,
@@ -363,7 +445,7 @@
       width: 100%;
       resize: none;
       height: 58px;
-      background: var(--card-bg);
+      background-color: var(--card-bg);
     }
 
     .add-list-btn {
