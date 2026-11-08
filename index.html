@@ -24,8 +24,8 @@
       --control-bg: rgba(255, 255, 255, 0.055);
       --control-bg-hover: rgba(255, 255, 255, 0.11);
       --control-border: rgba(255, 255, 255, 0.12);
-      /* 5-Tier Due Date Pill Colors */
-      --due-red: #8f211b;       /* Due today or overdue */
+      /* Due Date Pill Colors */
+      --due-red: #8f211b;       /* Due today */
       --due-tomorrow: #c9372c;  /* Due tomorrow */
       --due-orange: #e56910;    /* Next 3 days */
       --due-yellow: #f5cd47;    /* Next week */
@@ -380,6 +380,8 @@
     }
 
     .due-pill.tier-red { background: var(--due-red); color: #fff; }
+    .due-pill.tier-yesterday,
+    .due-pill.tier-overdue { background: #000; color: #fff; }
     .due-pill.tier-tomorrow { background: var(--due-tomorrow); color: #fff; }
     .due-pill.tier-orange { background: var(--due-orange); color: #fff; }
     .due-pill.tier-yellow { background: var(--due-yellow); color: #171a1c; font-weight: 600; }
@@ -993,7 +995,7 @@
       return { cleanTitle: cleaned, dueISO };
     }
 
-    // --- 2. 5-TIER DUE DATE PILL COLOUR LOGIC ---
+    // --- 2. DUE DATE PILL COLOUR LOGIC ---
     function getDuePillInfo(card) {
       if (!card.due) return null;
       const dueDate = new Date(card.due);
@@ -1010,6 +1012,10 @@
       const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const dateLabel = diffDays === 0
         ? "Today"
+        : diffDays === -1
+        ? "Yesterday"
+        : diffDays < -1
+        ? "Overdue"
         : diffDays === 1
         ? "Tomorrow"
         : diffDays > 0 && diffDays <= 7
@@ -1022,8 +1028,12 @@
       }
 
       let tierClass = "tier-lightblue";
-      if (diffDays <= 0) {
-        tierClass = "tier-red";        // Due today or overdue
+      if (diffDays < -1) {
+        tierClass = "tier-overdue";
+      } else if (diffDays === -1) {
+        tierClass = "tier-yesterday";
+      } else if (diffDays === 0) {
+        tierClass = "tier-red";        // Due today
       } else if (diffDays === 1) {
         tierClass = "tier-tomorrow";  // Due tomorrow
       } else if (diffDays <= 3) {
