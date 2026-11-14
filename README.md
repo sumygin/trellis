@@ -1,6 +1,6 @@
 # Trellis
 
-A lightweight, real-time collaborative Kanban board with dual-mode persistence and a token-optimised API for LLM scheduling pipelines.
+I couldn't find a decent todo list app that provided the features I needed for free, so I built my own one. I use it daily. Check it out at https://trellllis.vercel.app. It also has features for collaboration on boards. All your data is stored online, so you can use it seamlessly between different devices.
 
 ## Overview
 
