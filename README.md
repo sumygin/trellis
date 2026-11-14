@@ -1,97 +1,27 @@
 # Trellis
 
-Trellis is a lightweight collaborative kanban board.
+A lightweight, real-time collaborative Kanban board with dual-mode persistence and a token-optimised API for LLM scheduling pipelines.
 
-## Local development
+## Overview
 
-```bash
-python3 app.py
-```
+`Trellis` is a collaborative task-management workspace built for low-overhead state synchronisation and direct interoperability with **syntgrid**. It operates seamlessly in both a zero-dependency local mode (backed by a flat `data.json` store) and a multi-user cloud mode powered by **Supabase Realtime**, `JSONB` document storage, and strict Row-Level Security (RLS).
 
-Without Supabase environment variables, the app uses `data.json` exactly as before.
+## Key Features
 
-## Supabase + Vercel
+- **Real-Time Collaborative Sync:** Board mutations are persisted as PostgreSQL `JSONB` documents and broadcast instantaneously to active board members via Supabase Realtime channels.
+- **Dual-Mode Storage Engine:** Automatically falls back to local `data.json` file persistence when run offline via `python3 app.py`, allowing instant local use without external database dependencies.
+- **Fine-Grained Access Control:** Enforces database-level Row-Level Security (RLS) across boards, member roles, invitations, and custom background storage buckets while exposing only the public anonymous key to the client.
+- **Rich Card Primitives:** Supports nested checklists, due dates, descriptions, attached URLs with automated link-preview images, and custom board backgrounds.
+- **Native `syntgrid` Bridge:** Built-in cross-origin session handoff and a token-minified REST API designed specifically to feed board state into LLM context windows with minimal token overhead.
 
-1. Create a Supabase project and run [`supabase/schema.sql`](./supabase/schema.sql) in the SQL editor.
-   If you already ran an older version, run the current file again; it replaces the affected policies and creates the `board-backgrounds` Storage bucket.
-2. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Vercel environment variables.
-3. Import this repository into Vercel. The included [`vercel.json`](./vercel.json) serves the app and its config function.
-4. Add the deployed URL to Supabase Authentication > URL Configuration.
+## Architecture & Security Model
 
-### Google sign-in
+1. **Client-Safe Authentication:** Supports Google OAuth and Supabase Auth. The browser only ever receives the public anon key; all read/write permissions for boards, memberships, and invites are enforced directly by PostgreSQL RLS policies.
+2. **Cross-Origin Popup Handoff:** When opened from a trusted `syntgrid` origin (`?syntgridOrigin=...`), Trellis validates the active session and dispatches the user's access token to the opener window via a strictly target-scoped `TRELLIS_SUPABASE_SESSION` `postMessage` event.
+3. **Token-Minified Serialization:** To reduce LLM latency and prompt token consumption when scheduling tasks in `syntgrid`, Trellis strips empty optional fields and serialises board hierarchies using single-character keys.
 
-To enable the **Continue with Google** button:
+## `syntgrid` Board API
 
-1. In Google Cloud Console, create or select a project.
-2. Open **APIs & Services > OAuth consent screen** and configure the app.
-3. Open **APIs & Services > Credentials > Create credentials > OAuth client ID**.
-4. Choose **Web application**.
-5. In Supabase, open **Authentication > Providers > Google** and copy the displayed callback URL.
-6. Add that callback URL to the Google OAuth client's **Authorized redirect URIs**.
-7. Copy the Google client ID and client secret into Supabase's Google provider settings.
-8. Enable the Google provider and save.
+All endpoints validate the caller's `Authorization` bearer token against Supabase Auth and inherit the user's RLS board membership permissions.
 
-The callback URL normally looks like:
-
-```text
-https://<project-ref>.supabase.co/auth/v1/callback
-```
-
-In Supabase **Authentication > URL Configuration**, also add the deployed Vercel URL to the allowed redirect URLs. The app sends users back to the current site after Google sign-in.
-
-The browser only receives the Supabase anon key. Row-level security protects
-boards, memberships, and invitations. Board edits are stored as JSONB and
-synced to members through Supabase Realtime.
-
-## Syntgrid board API
-
-List the boards available to the authenticated user:
-
-```text
-GET https://<trellis-host>/api/boards
-HTTP Authorization header: the user's Supabase access token
-```
-
-Response:
-
-```json
-{"boards":[{"id":"uuid","name":"Personal Board","role":"owner"}]}
-```
-
-Syntgrid can fetch a user's Trellis board as a compact, AI-ready JSON payload.
-Prefer the board UUID returned by `/api/boards`:
-
-```text
-GET https://<trellis-host>/api/board?id=<board-uuid>
-HTTP Authorization header: the user's Supabase access token
-```
-
-The `name` query parameter remains supported for compatibility, but board names
-are not required to be unique. The access token must belong to the same
-Supabase account that has access to the requested board. Trellis validates the
-token with Supabase Auth and relies on the existing board membership policies,
-so the endpoint does not expose boards to other users.
-
-The response uses short keys to reduce prompt size:
-
-```json
-{"v":1,"b":"Personal Board","l":[{"n":"To Do","c":[{"t":"Prepare demo","due":"2026-10-31T12:00:00.000Z","k":[{"t":"Slides"},{"t":"Examples","done":true}]}]}]}
-```
-
-`t` is a title, `d` a description, `due` a due date, `done` completion state,
-`links` attached links, `img` a link preview image, and `k` checklist items.
-Empty optional values are omitted. Syntgrid should send the signed-in user's
-Supabase access token and use the exact board name selected by the user.
-
-Set `SYNTGRID_ORIGIN` in Vercel to the Syntgrid origin to restrict browser
-requests. It must be exactly `http://localhost:3000` or
-`https://syntgrid.vercel.app`; requests from other origins receive no CORS
-permission. The API requires `SUPABASE_URL` and `SUPABASE_ANON_KEY`, which are
-already used by the web app.
-
-To connect from Syntgrid, open Trellis in a popup with
-`?syntgridOrigin=https%3A%2F%2Fsyntgrid.vercel.app`. After the existing
-Supabase session loads, Trellis sends the access token to the popup opener
-with a `TRELLIS_SUPABASE_SESSION` message targeted only at that trusted
-origin. Syntgrid should keep the token in memory only, use it to call the
-board endpoints, and exclude it from generated prompts and persistence.
+Licesnse: MIT
