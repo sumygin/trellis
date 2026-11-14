@@ -5,6 +5,8 @@ import os
 import urllib.request
 import urllib.parse
 import re
+import ipaddress
+import socket
 from html.parser import HTMLParser
 
 PORT = 8000
@@ -57,9 +59,29 @@ class OGImageParser(HTMLParser):
                 self.first_img = urllib.parse.urljoin(self.base_url, src)
 
 
+class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 def extract_link_image(url):
+    parsed_url = urllib.parse.urlparse(url)
+    if parsed_url.scheme not in ("http", "https") or not parsed_url.hostname:
+        return None
+
+    try:
+        addresses = socket.getaddrinfo(parsed_url.hostname, None)
+        if any(ipaddress.ip_address(address[4][0]).is_private or
+               ipaddress.ip_address(address[4][0]).is_loopback or
+               ipaddress.ip_address(address[4][0]).is_link_local or
+               ipaddress.ip_address(address[4][0]).is_reserved
+               for address in addresses):
+            return None
+    except (socket.gaierror, ValueError):
+        return None
+
     # Direct image URL check
-    parsed_path = urllib.parse.urlparse(url).path.lower()
+    parsed_path = parsed_url.path.lower()
     if any(parsed_path.endswith(ext) for ext in (".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".bmp", ".avif")):
         return url
 
@@ -70,7 +92,8 @@ def extract_link_image(url):
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             }
         )
-        with urllib.request.urlopen(req, timeout=4) as resp:
+        opener = urllib.request.build_opener(NoRedirectHandler)
+        with opener.open(req, timeout=4) as resp:
             content_type = resp.headers.get("Content-Type", "").lower()
             if content_type.startswith("image/"):
                 return url
@@ -168,7 +191,7 @@ class TrelloHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("", PORT), TrelloHandler) as httpd:
+    with socketserver.TCPServer(("127.0.0.1", PORT), TrelloHandler) as httpd:
         print(f"Local Trello running at http://localhost:{PORT}")
         try:
             httpd.serve_forever()

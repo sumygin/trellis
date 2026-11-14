@@ -1298,7 +1298,10 @@
         target.innerHTML = `<span class="status-text">${escapeHtml(error.message)}</span>`;
         return;
       }
-      target.innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${escapeHtml(invite.boards?.name || "Board")}<br><small>${escapeHtml(invite.role)}</small></span><button onclick="acceptInvite('${escapeHtml(invite.id)}')">Accept</button></div>`).join("");
+      target.innerHTML = (data || []).map((invite) => `<div class="invite-row"><span>${escapeHtml(invite.boards?.name || "Board")}<br><small>${escapeHtml(invite.role)}</small></span><button class="accept-invite-btn">Accept</button></div>`).join("");
+      target.querySelectorAll(".accept-invite-btn").forEach((button, index) => {
+        button.addEventListener("click", () => acceptInvite(data[index].id));
+      });
     }
     async function acceptInvite(invitationId) {
       const { error } = await supabaseClient.rpc("accept_board_invitation", { invitation_id: invitationId });
@@ -1378,17 +1381,20 @@
 
         listEl.innerHTML = `
           <div class="list-header">
-            <span class="list-title" onclick="renameList('${escapeHtml(list.id)}')">${escapeHtml(list.name)}</span>
+            <span class="list-title">${escapeHtml(list.name)}</span>
             <div class="list-meta">
               <span>${list.cards.length}</span>
-              <button class="icon-btn" title="Delete List" onclick="deleteList('${list.id}')">⋯</button>
+              <button class="icon-btn" title="Delete List">⋯</button>
             </div>
           </div>
-          <div class="cards-container" data-list-id="${list.id}"></div>
-          <button class="add-card-btn" onclick="showAddCardForm('${list.id}', this)">+ Add a card</button>
+          <div class="cards-container" data-list-id="${escapeHtml(list.id)}"></div>
+          <button class="add-card-btn">+ Add a card</button>
         `;
 
         const container = listEl.querySelector(".cards-container");
+        listEl.querySelector(".list-title").addEventListener("click", () => renameList(list.id));
+        listEl.querySelector(".icon-btn").addEventListener("click", () => deleteList(list.id));
+        listEl.querySelector(".add-card-btn").addEventListener("click", (event) => showAddCardForm(list.id, event.currentTarget));
 
         listEl.addEventListener("dragstart", (event) => {
           if (draggedCardRef) {
@@ -1453,9 +1459,9 @@
           const linksCount = (card.links || []).length;
 
           cardEl.innerHTML = `
-            ${card.coverImage ? `<img class="card-cover" src="${escapeHtml(card.coverImage)}" alt="Link preview" onerror="this.style.display='none'" />` : ""}
+            ${card.coverImage && safeExternalUrl(card.coverImage) ? `<img class="card-cover" src="${escapeHtml(safeExternalUrl(card.coverImage))}" alt="Link preview" onerror="this.style.display='none'">` : ""}
             <div class="card-header-row">
-              <div class="complete-toggle ${card.completed ? "completed" : ""}" onclick="toggleCardComplete(event, '${list.id}', '${card.id}')">
+              <div class="complete-toggle ${card.completed ? "completed" : ""}">
                 ${card.completed ? "✓" : ""}
               </div>
               <div class="card-title">${linkifyText(card.title)}</div>
@@ -1472,6 +1478,9 @@
             }
           `;
 
+          cardEl.querySelector(".complete-toggle").addEventListener("click", (event) => {
+            toggleCardComplete(event, list.id, card.id);
+          });
           container.appendChild(cardEl);
         });
 
