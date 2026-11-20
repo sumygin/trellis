@@ -1143,6 +1143,10 @@
     // --- 5. DATA PERSISTENCE ---
     async function loadState() {
       try {
+        // Recover redirects that came back as "/##access_token=…" (older redirectTo bug).
+        if (window.location.hash.startsWith("##")) {
+          history.replaceState(null, "", window.location.pathname + window.location.search + window.location.hash.slice(1));
+        }
         const config = await (await fetch("/api/config")).json();
         if (config.supabaseUrl && config.supabaseAnonKey && window.supabase) {
           supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
@@ -1171,8 +1175,15 @@
         }
       }
       else {
-        const res = await fetch("/api/data");
-        state = await res.json();
+        try {
+          const res = await fetch("/api/data");
+          if (!res.ok || !res.headers.get("Content-Type")?.includes("application/json")) throw new Error("Local data API unavailable");
+          state = await res.json();
+        } catch (error) {
+          // /api/data only exists on the local Python server, not on Vercel.
+          console.warn(error);
+          state = { boards: [{ id: "local-board", name: "Local Board", background: "", lists: [] }] };
+        }
         state.activeBoardId = restoreActiveBoard(state.boards);
         rememberActiveBoard(state.activeBoardId);
       }
@@ -1274,7 +1285,9 @@
       if (!supabaseClient) return alert("Add Supabase environment variables to enable accounts.");
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: window.location.href }
+        // Never include a hash here: Supabase appends "#access_token=…", and an
+        // existing "#" produces "##access_token" which the client can't parse.
+        options: { redirectTo: window.location.origin + window.location.pathname + window.location.search }
       });
       if (error) document.getElementById("auth-status").textContent = error.message;
     }
